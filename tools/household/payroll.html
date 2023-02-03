@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Payroll</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="icon" type="image/x-icon" href="https://img.icons8.com/external-flat-wichaiwi/16/external-pay-online-activities-flat-wichaiwi.png">
+	<link rel="icon" sizes="192x192" href="https://img.icons8.com/external-flat-wichaiwi/100/external-pay-online-activities-flat-wichaiwi.png">
+</head>
+<body>
+
+<style type="text/css">
+	html,
+	body {
+		margin: 0;
+		padding: 0;
+		height: 100%;
+		color: #555555;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	body {
+		font-family: System-UI;
+	}
+
+	select,
+	button {
+		height: 30px;
+		padding-bottom: 3px;
+	}
+
+	button {
+		margin-top: 15px;
+		background-color: #f44336;
+		color: #ffd54f;
+		outline: none;
+		border: none;
+		padding-left: 10px;
+		padding-right: 10px;
+		cursor: pointer;
+		min-width: 120px;
+	}
+
+	input[type=text] {
+		outline: none;
+		border: none;
+		border-bottom: 1px solid #aaaaaa;
+	}
+
+	button.free-w {
+		min-width: unset;
+	}
+
+	table.calendar {
+		font-size: 12px;
+	}
+
+	table.calendar td, table.calendar th {
+		text-align: center;
+	}
+
+	table.calendar td {
+		/*border: 1px solid #aaaaaa;*/
+		background-color: #efefef;
+		width: 30px;
+		position: relative;
+		margin: 0;
+		padding: 0;
+	}
+
+	table.calendar td.work {
+		background-color: #fff59d;
+	}
+
+	table.calendar td.work.dd {
+		background-color: #e1dcd2;
+	}
+
+	table.calendar td.work .olayabs {
+		position: absolute;
+	    width: 100%;
+	    height: 100%;
+	    top: 0;
+	    left: 0;
+    	overflow: hidden;
+    	display: none;
+	}
+
+	table.calendar td.work .olayabs .rx {
+		height: 1px;
+	    width: 150%;
+	    background-color: red;
+	    position: absolute;
+	    left: -30%;
+	    top: 52%;
+	}
+
+	table.calendar td.work .olayabs .lx {
+	    transform: rotate(20deg);
+	}
+
+	table.calendar td.work .olayabs .rx {
+	    transform: rotate(331deg);
+	}
+
+	table.calendar td.abs .olayabs {
+	    display: block;
+	}
+
+	table.calendar td.hol {
+	    background-color: #03a9f4;
+	    color: #ffffff;
+	    border: 0;
+	}
+
+	table.calendar td.hol.dd {
+	    background-color: #03a9f4 !important;
+	    color: #000;
+	}
+
+	table.calendar td div.today {
+		position: absolute;
+	    width: 100%;
+	    height: 2px;
+	    background-color: #00bcd4;
+	    top: 0;
+	}
+
+	table.calendar tr td {
+		height: 28px;
+	}
+
+	label {
+		display: block;
+	}
+
+	label[for] {
+		font-size: 14px;
+		margin-top: 10px;
+	}
+
+	label[for] label:not([for]) {
+		font-size: 12px;
+	}
+
+	label[for=options] label {
+		margin-top: 0;
+	}
+
+	label[for=options] {
+		margin-top: 10px;
+	}
+
+	label[for] input:not([type=radio]) {
+		margin-top: 5px;
+	}
+
+	input {
+		line-height: 25px;
+		text-indent: 5px;
+	}
+
+	.app-name {
+		font-size: 20px;
+		margin-bottom: 20px;
+	}
+
+	.page-header {
+		margin-bottom: 20px;
+		font-size: 16px;
+	}
+
+	.side-panel {
+		height: 100vh;
+	    width: 40px;
+	    /*position: fixed;*/
+	    top: 0;
+	    background-color: #f44336;
+	    color: #ffd54f;
+	    padding: 10px 0;
+	    text-align: center;
+	    font-size: 25px;
+	    float: left;
+	}
+
+	.main-panel {
+		height: 100vh;
+		overflow: auto;
+		float: none;
+		padding: 20px;
+	}
+
+	.side-panel i {
+		cursor: pointer;
+	}
+
+	.side-item {
+		margin-bottom: 10px;
+		display: inline-block;
+		line-height: 1;
+	}
+
+	.lasttime {
+		font-size: 11px;
+	}
+
+	.hidden {
+		display: none;
+	}
+
+	.popup {
+		display: none;
+		position: fixed;
+	    z-index: 10;
+	    top: 0;
+	    left: 0;
+	    padding: 20px;
+	    background-color: #fff;
+	    width: 100%;
+	    height: 100vh;
+	}	
+
+	.popup .printdiv {
+		font-family: monospace;
+		margin: 0 auto;
+		width: 100%;
+		max-width: 300px;
+	}
+
+	.popup .printdiv .datarow {
+		white-space: break-spaces;
+		margin-top: 4px;
+	}
+
+	.popup-title {
+		margin-bottom: 20px;
+		font-size: 20px;
+		font-weight: 700;
+	}
+
+	.popup-close {
+		position: absolute;
+	    right: 30px;
+	    top: 30px;
+	}
+
+	#scrnshtdiv {
+		padding: 20px 15px 60px 15px;
+	}
+
+	.monval {
+		font-weight: 700;
+		color: #4caf50;
+	}
+
+	.legends {
+		margin-top: 20px;
+	}
+
+	.legends .legitem {
+		margin-bottom: 10px;
+		font-size: 14px;
+	}
+
+	.legends .legitem div {
+		height: 28px;
+	}
+
+	.legends .legwd {
+	    width: 30px;
+	    display: inline-block;
+	    border: 1px solid #aaaaaa;
+	   	background-color: #fff59d;
+	    vertical-align: middle;
+	}
+
+	.legends .legnp {
+	    width: 30px;
+	    display: inline-block;
+	    border: 1px solid #aaaaaa;
+	   	background-color: #e1dcd2;
+	    vertical-align: middle;
+	}
+
+	.legends .legabs {
+	    width: 30px;
+	    display: inline-block;
+	    vertical-align: middle;
+	    position: relative;
+	    overflow: hidden;
+	    border: 1px solid #aaaaaa;
+	}
+
+	.legends .legabs .olayabs .rx {
+		height: 1px;
+	    width: 150%;
+	    background-color: red;
+	    position: absolute;
+	    left: -30%;
+	    top: 52%;
+	}
+
+	.legends .legabs .olayabs .rx {
+	    transform: rotate(331deg);
+	}
+
+	.legends .leghol {
+	    width: 30px;
+	    display: inline-block;
+	    background-color: #03a9f4;
+	    vertical-align: middle;
+	}
+
+	.legends .legtod {
+	    width: 30px;
+	    display: inline-block;
+	    border: 1px solid #aaaaaa;
+	   	border-top: 3px solid #00bcd4;
+	    vertical-align: middle;
+	}
+
+	#ename {
+		text-transform: uppercase;
+	}
+
+	table.details {
+		font-size: 14px;
+		border-collapse: collapse;
+	}
+
+	table.details tr td.tbldata {
+		text-indent: 20px;
+	}
+
+	table.details tr.total {
+		border-top: 1px dashed #555555;
+	}
+
+	table.details tr:nth-last-child(4) td,
+	table.details tr:nth-last-child(2) td {
+		padding-bottom: 10px;
+	}
+
+	table.details tr.total td {
+		padding-top: 10px;
+	}
+
+	#scrnshtdiv table {
+		border-collapse: collapse;
+	}
+
+	#scrnshtdiv table tr td:first-child {
+    	width: 90px;
+	}
+	#scrnshtdiv table tr td:nth-child(2) {
+    	width: 15px;
+    	text-align: center;
+	}
+
+	#scrnshtdiv table tr.dashtop {
+		border-top: 1px dotted #555555;
+ 
+	}
+
+	#scrnshtdiv table tr.dashtop td {
+    	padding-top: 10px;
+	}
+
+	#scrnshtdiv table tr:nth-last-child(2) td,
+	#scrnshtdiv table tr:nth-last-child(4) td {
+    	padding-bottom: 10px;
+	}
+
+	.prnt_name {
+		text-transform: uppercase;
+	}
+
+	.total-lbl {
+		font-weight: 700;
+	}
+
+	#output {
+		display: none;
+	}
+
+	.front-month-year {
+		text-indent: 5px;
+    	font-size: 14px;
+	}
+	
+	image[alt='www.000webhost.com'] {
+	    display: none !important;
+	}
+</style>
+
+<div class="main">
+	<div class="side-panel">
+		<div class="side-item settings" data-tab-target="settings-section">
+			<i class="fa fa-cog"></i>
+		</div>
+		<div class="side-item side-item-back hidden" data-tab-target="init-section">
+			<i class="fa fa-arrow-left"></i>
+		</div>
+		<div class="side-item print" data-tab-target="print-section">
+			<i class="fa fa-receipt"></i>
+		</div>
+	</div>
+	<div class="main-panel">
+		<div class="section init-section hidden">
+			<div class="app-name">Payroll App</div>
+	<!-- 		<div class="lasttime">
+				<i class="fa fa-clock"></i> Last generation : <span id="lasttimeval"></span>
+			</div> -->
+
+			
+			<div id="front">
+				<div class="front-month-year">OCTOBER</div>
+				<table class="calendar">
+					<thead></thead>
+					<tbody></tbody>
+				</table>
+			</div>
+			
+			<div class="legends">
+				<div class="legitem">
+					<div class="legwd">
+					</div>
+					<span>- Working Days</span>
+				</div>
+				<div class="legitem">
+					<div class="legnp">
+					</div>
+					<span>- Next/Previous Cutoff</span>
+				</div>
+				<div class="legitem">
+					<div class="legabs">
+						<div class="olayabs">
+							<div class="rx"></div>
+						</div>
+					</div>
+					<span>- Absences</span>
+				</div>
+				<div class="legitem">
+					<div class="leghol">
+					</div>
+					<span>- Holidays</span>
+				</div>
+				<div class="legitem">
+					<div class="legtod">
+					</div>
+					<span>- Today</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="section settings-section hidden">
+			<div class="page-header">Settings</div>
+			<label for="ename">
+				<label>Name</label>
+				<input id="ename" type="text" name="">
+			</label>
+			<label for="salary">
+				<label>Salary</label>
+				<input id="salary" type="text" name="">
+			</label>
+			<label for="options">
+				<label>Options</label>
+				<label for="fh">
+					<input type="radio" name="salopt" class="salopt" id="fh" checked>
+					<span>First half</span>
+				</label>
+				<label for="sh">
+					<input type="radio" name="salopt" class="salopt" id="sh">
+					<span>Second half</span>
+				</label>
+				<label for="fm">
+					<input type="radio" name="salopt" class="salopt" id="fm">
+					<span>Full month</span>
+				</label>
+			</label>
+
+			<label for="absences">
+				<label>Absences</label>
+				<div id="absences"></div>
+				<button class="clearcal free-w" data-clear="abs" data-target="absences">Clear</button>
+			</label>
+
+			<label for="holidays">
+				<label>Holidays</label>
+				<div id="holidays"></div>
+				<button class="clearcal free-w" data-clear="hol" data-target="holidays">Clear</button>
+			</label>
+
+		</div>
+
+		<div class="section print-section hidden">
+			<div class="page-header">Details</div>
+			<div class="printdiv">
+				<table class="details">
+					<tr>
+						<td>Name : </td>
+						<td class="tbldata prnt_name">-</td>
+					</tr>
+					<tr>
+						<td>Date : </td>
+						<td class="tbldata prnt_drange">-</td>
+					</tr>
+					<tr>
+						<td>No of days : </td>
+						<td class="tbldata prnt_nodays">-</td>
+					</tr>
+					<tr>
+						<td>Salary : </td>
+						<td class="tbldata"><span class="monval prnt_sal">-</span></td>
+					</tr>
+					<tr>
+						<td>Daily Pay : </td>
+						<td class="tbldata"><span class="monval prnt_dpay">-</span> (<span class="prnt_sal">-</span> ÷ <span class="prnt_nodays"></span>)</td>
+					</tr>
+					<tr>
+						<td>Absences : </td>
+						<td class="tbldata prnt_abs">2</td>
+					</tr>
+					<tr>
+						<td>Deduction : </td>
+						<td class="tbldata"><span class="monval prnt_ded">-</span> (<span class="prnt_dpay"></span> x <span class="prnt_abs"></span>)</td>
+					</tr>
+					<tr>
+						<td>Holidays : </td>
+						<td class="tbldata prnt_hol">1</td>
+					</tr>
+					<tr>
+						<td>Addition : </td>
+						<td class="tbldata"><span class="monval prnt_add">-</span> (<span class="prnt_dpay"></span> x <span class="prnt_hol"></span>)</td>
+					</tr>
+					<tr class="total">
+						<td>Deducted : </td>
+						<td class="tbldata"><span class="monval prnt_totded">-</span> (<span class="prnt_sal"></span> - <span class="prnt_ded"></span>)</td>
+					</tr>
+					<tr>
+						<td>Added : </td>
+						<td class="tbldata"><span class="monval prnt_totadd">-</span> (<span class="prnt_totded"></span> + <span class="prnt_add"></span>)</td>
+					</tr>
+					<tr class="total">
+						<td class="total-lbl">Total : </td>
+						<td class="tbldata"><span class="monval prnt_totadd">-</span></td>
+					</tr>
+				</table>
+			</div>
+
+			<button class="free-w" id="print-payroll"><i class="fa fa-print"></i> Print Payroll</button>
+		</div>
+
+		<div class="popup" id="popup">
+			<div class="printdiv" id="print-receipt">
+				<div class="popup-close"><i class="fa fa-close"></i></div>
+				<div id="scrnshtdiv">
+					<div class="popup-title">Payroll</div>
+					<table>
+						<tr>
+							<td>Name</td>
+							<td>:</td>
+							<td><span class="prnt_name"></span></td>
+						</tr>
+						<tr>
+							<td>Date</td>
+							<td>:</td>
+							<td><span class="prnt_drange"></span></td>
+						</tr>
+						<tr>
+							<td>No of days</td>
+							<td>:</td>
+							<td><span class="prnt_nodays"></span></td>
+						</tr>
+						<tr>
+							<td>Salary</td>
+							<td>:</td>
+							<td><span class="monval prnt_sal"></span></td>
+						</tr>
+						<tr>
+							<td>Daily Pay</td>
+							<td>:</td>
+							<td><span class="monval prnt_dpay">-</span> (<span class="prnt_sal"></span> ÷ <span class="prnt_nodays"></span>)</td>
+						</tr>
+						<tr>
+							<td>Absences</td>
+							<td>:</td>
+							<td><span class="prnt_abs"></span></td>
+						</tr>
+						<tr>
+							<td>Deduction</td>
+							<td>:</td>
+							<td><span class="monval prnt_ded">-</span> (<span class="prnt_dpay"></span> x <span class="prnt_abs"></span>)</td>
+						</tr>
+						<tr>
+							<td>Holidays</td>
+							<td>:</td>
+							<td><span class="prnt_hol"></span></td>
+						</tr>
+						<tr>
+							<td>Addition</td>
+							<td>:</td>
+							<td><span class="monval prnt_add"></span> (<span class="prnt_dpay"></span> x <span class="prnt_hol"></span>)</td>
+						</tr>
+						<tr class="dashtop">
+							<td>Deducted</td>
+							<td>:</td>
+							<td><span class="monval prnt_totded">-</span> (<span class="prnt_totded"></span> - <span class="prnt_ded"></span>)</td>
+						</tr>
+						<tr>
+							<td>Added</td>
+							<td>:</td>
+							<td><span class="monval prnt_totadd">-</span> (<span class="prnt_totded"></span> + <span class="prnt_add"></span>)</td>
+						</tr>
+						<tr class="dashtop">
+							<td>Total</td>
+							<td>:</td>
+							<td><span class="monval prnt_totadd">-</span></td>
+						</tr>
+					</table>
+
+				</div>
+				<button onclick="takeshot(this);">Download</button>
+			</div>
+			<div id="output"></div>
+		</div>
+	</div>
+</div>
+
+<script src="storage.js"></script>
+<script src="html2canvas.min.js"></script>
+<script>
+
+let eById = function(id) {
+	return document.getElementById(id);
+}
+let eByClass = function(classname) {
+	return document.getElementsByClassName(classname);
+}
+let eQuery = function(query) {
+	return document.querySelectorAll(query);
+}
+let storage = new Storage('payroll');
+let settings = storage.getData('settings');
+let dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+let monthNames = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+let calendar = eByClass('calendar')[0];
+let calendarHeader = eQuery('.calendar thead')[0];
+let calendarBody = eQuery('.calendar tbody')[0];
+let today = new Date();
+let popup = eByClass('popup')[0];
+
+let holidays = eById('holidays');
+let absences = eById('absences');
+let salopts = eByClass('salopt');
+
+let ename = eById('ename');
+let sal = eById('salary');
+
+const absConst = 'abs';
+const holConst = 'hol';
+
+
+onpageload();
+
+function onpageload() {
+	tabSettings();
+
+	let defaults = getDefaults();
+	let defDaysSettings = getDaysInMonth(today.getMonth(), today.getFullYear());
+	defaults.ds = defDaysSettings;
+	defaults.cmo = today.getMonth();
+
+	if (settings.length <= 0 || !settings.cmo || settings.cmo != today.getMonth()) {
+		storage
+			.setData(defaults, 'settings')
+			.setData({cp:'init-section'}, 'page')
+			.save();
+	}
+
+	// storage
+	// .setData(defaults, 'settings')
+	// .setData({cp:'init-section'}, 'page')
+	// .save();
+
+	customFunctions();
+	loadLastPage();
+	printCalendar();
+	setFrontMonth();
+
+	showAbsencesCalendar();
+	showHolidayCalendar();
+	
+	setOpt();
+	setEmpName();
+	setSalary();
+	setAbsentDays('#absences');
+	setHolidays('#holidays');
+	setFrontCalendar();
+	setClear();
+	setPrint();
+	setPrintPopup();
+}
+
+function getDefaults() {
+	return {sal:'',sopt:'',ename:'',cmo:''};
+}
+
+
+function loadLastPage() {
+	let lastpageid = storage.getData('page')['cp'];
+	let sections = eByClass('section');
+	let hidden = 'hidden';
+
+	for (i in sections) {
+		let section = sections[i];
+		if (section instanceof HTMLElement) {
+			if (section.classList.contains(lastpageid)) {
+				section.remClass(hidden);
+			} else {
+				section.addClass(hidden);
+			}
+		}
+	}
+
+
+	let sideItems = eByClass('side-item');
+	let initSection = 'init-section';
+
+
+	for (i in sideItems) {
+		let sideItem = sideItems[i];
+		if (sideItem instanceof HTMLElement) {
+			let target = sideItem.dataset.tabTarget;
+
+			if (target == initSection) {
+				if (target != lastpageid) {
+					sideItem.remClass(hidden);
+				}
+			} else {
+				if (initSection != lastpageid) {
+					sideItem.addClass(hidden);
+				}
+			}
+		}
+	}
+}
+
+function cloneCalendar() {
+	return calendar.cloneNode(true);
+}
+
+function showAbsencesCalendar() {
+	let calClone = cloneCalendar();
+	let abs = calClone.querySelectorAll('.calendar td.work');
+
+	for (i in abs) {
+		let eachAbs = abs[i];
+
+		if (eachAbs instanceof HTMLElement) {
+			let dayVal = eachAbs.childNodes[0].textContent;
+			let settings = storage.getData('settings')['ds'][dayVal - 1]['settings'];
+
+			if (settings.indexOf(absConst) > -1) {
+				eachAbs.addClass(absConst);
+			}
+		}
+
+	}
+
+	absences.append(calClone);
+}
+
+function showHolidayCalendar() {
+	let calClone = cloneCalendar();
+	let hol = calClone.querySelectorAll('.calendar td.work');
+
+	for (i in hol) {
+		let eachHol = hol[i];
+
+		if (eachHol instanceof HTMLElement) {
+			let dayVal = eachHol.childNodes[0].textContent;
+			let settings = storage.getData('settings')['ds'][dayVal - 1]['settings'];
+
+			if (settings.indexOf(holConst) > -1) {
+				eachHol.addClass(holConst);
+			}
+		}
+
+	}
+
+	holidays.append(calClone);
+}
+
+function printCalendar() {
+	let daysSettings = storage.getData('settings')['ds'];
+	let daysHeader = '';
+	let daysBody = '';
+
+	daysHeader += '<tr>';
+	for (i in dayNames) {
+		daysHeader += '<th>' + dayNames[i] + '</th>'
+	}
+	daysHeader += '</tr>';
+
+	calendarHeader.innerHTML = daysHeader;
+
+	let monthData = [];
+	let weekIdx = 0;
+
+	for (i in daysSettings) {
+		let eachDs = daysSettings[i];
+		let nameIdx = eachDs.nameidx;
+		let dayVal = eachDs.day;
+		let dayperweek = 7;
+
+		if (!monthData[weekIdx]) {
+			monthData[weekIdx] = [];
+			for (let i = 0; i < dayperweek; i++) {
+				monthData[weekIdx][i] = '';
+			}
+		}	
+
+		monthData[weekIdx][nameIdx] = dayVal;
+
+		if (nameIdx >= dayNames.length - 1) {
+			weekIdx++;
+		}
+
+	}
+
+	
+	for (i in monthData) {
+		let weekData = monthData[i];
+		let dayCntr = 0;
+
+		daysBody += '<tr>';
+
+		for (j in weekData) {
+			let dayData = weekData[j];
+			let workClass = '';
+			let monthOpt = '';
+
+
+			if (!inArray(dayCntr, [0, 6]) && !!dayData) {
+				workClass = 'work';
+				
+				if (dayData <= 15) {
+					monthOpt = ' fh';
+				} else {
+					monthOpt = ' sh'
+				}
+			}
+			
+			if (today.getDate() == dayData) {
+				dayData += '<div class="today"></div>';
+			}
+
+			dayData += '<div class="olayabs"><div class="rx"></div></div>'
+
+			daysBody += '<td class="' + workClass + monthOpt + '">';
+			daysBody += dayData;
+			daysBody += '</td>';
+			dayCntr++;
+		}
+
+		daysBody += '</tr>';
+	}
+
+	calendarBody.innerHTML = daysBody;
+}
+
+function setFrontCalendar() {
+	let daySet = eQuery('#front .calendar td.work');
+
+	for (i in daySet) {
+		let eachDay = daySet[i];
+		if (eachDay instanceof HTMLElement) {
+			let dayVal = eachDay.childNodes[0].textContent;
+			let settings = storage.getData('settings')['ds'][dayVal - 1]['settings'];
+			if (settings.indexOf(absConst) > -1) {
+				eachDay.addClass(absConst);
+			} else {
+				eachDay.remClass(absConst);
+			}
+
+			if (settings.indexOf(holConst) > -1) {
+				eachDay.addClass(holConst);
+			} else {
+				eachDay.remClass(holConst);
+			}
+		}
+	}
+
+
+}
+
+function tabSettings() {
+	let sideItems = eQuery('.side-item:not(.side-item-back)');
+	let sideItemBack = eByClass('side-item side-item-back')[0];
+	let otherPage = eQuery('.section:not(.init-page)');
+	let initPage = eByClass('section init-section')[0];
+
+	let page = storage.getData('page');
+
+	for (i in sideItems) {
+		sideItems[i].onclick = function(e) {
+			let sectionClass = e.currentTarget.dataset.tabTarget;
+			let allSections = eByClass('section');
+
+			for (j in allSections) {
+				if (allSections[j] instanceof HTMLElement) {
+
+					let selectedSection = eByClass(sectionClass)[0];
+
+					if (inArray(sectionClass, allSections[j].classList)) {
+						allSections[j].remClass('hidden');
+					} else {
+						allSections[j].addClass('hidden');
+					}
+
+				}
+			}
+
+			for (k in sideItems) {
+				if (sideItems[k] instanceof HTMLElement) {
+					sideItems[k].addClass('hidden');
+				}
+			}
+
+			sideItemBack.remClass('hidden');
+
+
+			page['cp'] = sectionClass;
+			storage
+			.setData(page, 'page')
+			.save();
+
+		}
+	}
+
+	sideItemBack.onclick = function(e) {
+		let sectionClass = e.currentTarget.dataset.tabTarget;
+
+		for (l in otherPage) {
+			if (otherPage[l] instanceof HTMLElement) {
+				otherPage[l].addClass('hidden');
+			}
+		}
+
+		for (k in sideItems) {
+			if (sideItems[k] instanceof HTMLElement) {
+				sideItems[k].remClass('hidden');
+			}
+		}
+
+		sideItemBack.addClass('hidden');
+		initPage.remClass('hidden');
+
+		page['cp'] = sectionClass;
+		storage
+		.setData(page, 'page')
+		.save();
+	}
+}
+
+function setAbsentDays() {
+	let absentdays = eQuery('#absences .calendar td.work');
+
+	for (i in absentdays) {
+		let eachDay = absentdays[i];
+
+		eachDay.onclick = function(e) {
+			let showElem;
+			let currentTarget = e.currentTarget;
+			let currClasses = currentTarget.classList;
+
+			if (currClasses.contains(absConst)) {
+				currClasses.remove(absConst);
+			} else {
+				currClasses.add(absConst);
+			}
+
+
+			let selDay = currentTarget.childNodes[0].textContent - 1;
+			
+			let ds = settings['ds'];
+			let selDaySettings = ds[selDay]['settings'];
+
+			if (selDaySettings.indexOf(absConst) > -1 ) {
+				selDaySettings.pop(absConst);
+			} else {
+				selDaySettings.push(absConst);
+			}
+
+			
+			storage
+			.setData(settings, 'settings')
+			.save();
+
+
+			setFrontCalendar();
+			setPrint();
+		}
+	}
+}
+
+function setHolidays() {
+	let holidays = eQuery('#holidays .calendar td.work');
+
+	for (i in holidays) {
+		let eachDay = holidays[i];
+
+		eachDay.onclick = function(e) {
+			let currentTarget = e.currentTarget;
+			let currClasses = currentTarget.classList;
+
+			if (currClasses.contains(holConst)) {
+				currClasses.remove(holConst);
+			} else {
+				currClasses.add(holConst);
+			}
+
+			let selDay = currentTarget.childNodes[0].textContent - 1;
+			
+			let ds = settings['ds'];
+			let selDaySettings = ds[selDay]['settings'];
+
+			if (selDaySettings.indexOf(holConst) > -1 ) {
+				selDaySettings.pop(holConst);
+			} else {
+				selDaySettings.push(holConst);
+			}
+			
+			storage
+			.setData(settings, 'settings')
+			.save();
+
+
+			setFrontCalendar();
+			setPrint();
+		}
+	}
+}
+
+function setClear() {
+	let clearbtn = eByClass('clearcal');
+
+	for (i in clearbtn) {
+		let eachBtn = clearbtn[i];
+
+		if (eachBtn instanceof HTMLElement) {
+			eachBtn.onclick = function(e) {
+				let thisBtn = e.target;
+				let dataClear = thisBtn.dataset['clear'];
+				let dataTarget = thisBtn.dataset['target'];
+				let allSettings = storage.getData('settings');
+				let allDs = allSettings['ds'];
+
+
+				for (i in allDs) {
+					let daySettings = allDs[i]['settings'];
+					if (daySettings.indexOf(dataClear) > -1) {
+						daySettings.pop(dataClear);
+					}
+				}
+
+				storage
+				.setData(allSettings, 'settings')
+				.save();
+
+				let allType = eQuery('#' + dataTarget + ' .calendar td.' + dataClear + ',#front .calendar td.' + dataClear);
+				for (i in allType) {
+					let eachType = allType[i];
+					if (eachType instanceof HTMLElement) {
+						eachType.classList.remove(dataClear);
+					}
+				}
+
+				setPrint();
+			}
+		}
+
+	}
+}
+
+function setOpt() {
+	let salopt = settings['sopt'];
+	let selOpt;
+	if (!salopt) {
+		selOpt = eQuery('.salopt')[0];
+	} else {
+		selOpt = eQuery('.salopt[id=' + salopt + ']')[0];
+	}
+	
+	selOpt.checked = true;
+
+	optEvents(selOpt);
+
+	for (i in salopts) {
+		salopts[i].onchange = function(e) {
+			optEvents(e.target);
+			settings['sopt'] = e.target.getAttribute('id');
+
+			storage
+			.setData(settings, 'settings')
+			.save();
+
+			setPrint();
+		}
+	}
+}
+
+function optEvents(e) {
+	let calfh = eQuery('.calendar td.fh');
+	let calsh = eQuery('.calendar td.sh');
+	let calfm = eQuery('.calendar td');
+	let salopt = e.getAttribute('id');
+
+	switch(salopt) {
+		case 'sh':
+			for (i in calfh) {
+				if (calfh[i] instanceof HTMLElement) {
+					calfh[i].addClass('dd');
+					if (!!calsh[i]) {
+						calsh[i].remClass('dd');
+					}
+				}
+			}
+			break;
+		case 'fh':
+			for (i in calsh) {
+				if (calsh[i] instanceof HTMLElement) {
+					calsh[i].addClass('dd');
+					if (!!calfh[i]) {
+						calfh[i].remClass('dd');
+					}
+				}
+			}
+			break;
+		default:
+			for (i in calfm) {
+				if (calfm[i] instanceof HTMLElement) {
+					calfm[i].remClass('dd');
+				}
+			}
+			break;
+	}
+}
+
+function setEmpName() {
+	ename.value = settings['ename'];
+
+	ename.oninput = function(e) {
+		settings['ename'] = e.target.value;
+		storage
+		.setData(settings, 'settings')
+		.save();
+	}
+}
+
+function setSalary() {
+	sal.value = settings['sal'];
+
+	sal.oninput = function(e) {
+		settings['sal'] = e.target.value;
+		storage
+		.setData(settings, 'settings')
+		.save();
+	}
+}
+
+function setPrint() {
+	let prnt = 'prnt';
+	let name = eByClass(prnt + '_name');
+	let drange = eByClass(prnt + '_drange');
+	let nodays = eByClass(prnt + '_nodays');
+	let sal = eByClass(prnt + '_sal');
+	let dpay = eByClass(prnt + '_dpay');
+	let abs = eByClass(prnt + '_abs');
+	let ded = eByClass(prnt + '_ded');
+	let hol = eByClass(prnt + '_hol');
+	let add = eByClass(prnt + '_add');
+	let totded = eByClass(prnt + '_totded');
+	let totadd = eByClass(prnt + '_totadd');
+	
+	let ds = settings.ds;
+	let wends = [0,6];
+	let counter = 0;
+
+	for (i in name) {
+		if (name[i] instanceof HTMLElement) {
+			name[i].print(settings.ename);
+		}
+	}
+
+	switch (settings.sopt) {
+		case 'fh':
+			sday = 1;
+			realSday = '';
+			eday = 0;
+			realEday = '';
+			for (i in ds) {
+
+				if (!inArray(ds[i]['nameidx'], wends)) {
+					eday++;
+
+					if (!realSday) {
+						realSday = eday;
+					}
+				}
+				
+				if (counter >= 15) {
+					if (!realEday) {
+						realEday = counter;
+					}
+					break;
+				}
+
+				counter++;
+			}
+			range = realSday + ' - ' + realEday;
+			break;
+		case 'sh':
+			sday = 16;
+			realSday = '';
+			eday = settings.ds.length - sday;
+			realEday = '';
+			counter = eday;
+			for (i in ds) {
+
+				if (!inArray(ds[i]['nameidx'], wends)) {
+					eday++;
+
+					if (!realSday) {
+						realSday = eday + 1;
+					}
+				}
+				
+				if (counter >= settings.ds.length) {
+					if (!realEday) {
+						realEday = counter;
+					}
+					break;
+				}
+
+				counter++;
+			}
+			range = realSday + ' - ' + realEday;
+			break;
+		case 'fm':
+			sday = 1;
+			eday = settings.ds.length;
+			range = '1 - ' + eday;
+			break;
+		default:
+			sday = 1;
+			eday = settings.ds.length;
+			range = '1 - ' + eday;
+			break;
+	}
+
+	let monthName = monthNames[today.getMonth()];
+	let drangeTxt = monthName + ' ' + range + ' ' + today.getFullYear();
+
+	for (i in drange) {
+		if (drange[i] instanceof HTMLElement) {
+			drange[i].print(drangeTxt);
+		}
+	}
+
+	let ndays = eday - sday + 1;
+	for (i in nodays) {
+		if (nodays[i] instanceof HTMLElement) {
+			nodays[i].print(ndays + ' days');
+		}
+	}
+
+	let salVal = settings.sal;
+	for (i in sal) {
+		if (sal[i] instanceof HTMLElement) {
+			sal[i].print(salVal);
+		}
+	}
+
+	let dpayVal = Math.round(salVal / ndays);
+	for (i in dpay) {
+		if (dpay[i] instanceof HTMLElement) {
+			dpay[i].print(dpayVal);
+		}
+	}
+
+
+	let absDays = 0;
+	let holDays = 0;
+	for (i in ds) {
+		let eachds = ds[i];
+
+		if (inArray(absConst, eachds.settings)) {
+			absDays++;
+		}
+
+		if (inArray(holConst, eachds.settings)) {
+			holDays++;
+		}
+	}
+
+	for (i in abs) {
+		if (abs[i] instanceof HTMLElement) {
+			abs[i].print(absDays + ' days');
+		}
+	}
+
+	let totdedVal = dpayVal * absDays;
+	for (i in ded) {
+		if (ded[i] instanceof HTMLElement) {
+			ded[i].print(totdedVal);
+		}
+	}
+
+
+	for (i in hol) {
+		if (hol[i] instanceof HTMLElement) {
+			hol[i].print(holDays + ' days');
+		}
+	}
+
+	let totaddVal = dpayVal * holDays;
+	for (i in add) {
+		if (add[i] instanceof HTMLElement) {
+			add[i].print(totaddVal);
+		}
+	}
+	
+	for (i in totded) {
+		if (totded[i] instanceof HTMLElement) {
+			totded[i].print(salVal - totdedVal);
+		}
+	}
+
+	for (i in totadd) {
+		if (totadd[i] instanceof HTMLElement) {
+			let totalAdd = parseInt(salVal - totdedVal) + parseInt(totaddVal);
+			totadd[i].print(totalAdd);
+		}
+	}
+}
+
+function setFrontMonth() {
+	let fmoyea = eByClass('front-month-year')[0];
+	let fmoyeatxt = monthNames[settings.cmo] + ' ' + today.getFullYear();
+	fmoyea.print(fmoyeatxt);
+}
+
+function setPrintPopup() {
+	let printPayroll = eById('print-payroll');
+
+	printPayroll.onclick = function() {
+		popup.style.display = 'block';
+	}
+
+	let popupClose = eByClass('popup-close')[0];
+	popupClose.onclick = function() {
+		popup.style.display = 'none';
+	}
+}
+
+function inArray(needle, haystack) {
+    var length = haystack.length;
+    for(var i = 0; i < length; i++) {
+        if(haystack[i] == needle) return true;
+    }
+    return false;
+}
+
+function getDaysInMonth(month, year) {
+  var date = new Date(year, month, 1);
+  var days = [];
+  while (date.getMonth() === month) {
+  	let dayDetails = new Date(date);
+
+    days.push({
+    	'day': dayDetails.getDate(),
+    	'nameidx': dayNames.indexOf(dayNames[dayDetails.getDay()]),
+    	'settings': []
+    });
+   
+    date.setDate(date.getDate() + 1);
+  }
+  return days;
+}
+
+function takeshot(e) {
+    let div = eById('scrnshtdiv');
+
+    // Use the html2canvas
+    // function to take a screenshot
+    // and append it
+    // to the output div
+    html2canvas(div).then(
+        function (canvas) {
+            eById('output').appendChild(canvas);
+            downloadURI(canvas.toDataURL(), 'payroll_screenshot.png');
+        })
+}
+
+function downloadURI(uri, name) {
+	var link = document.createElement("a");
+	link.download = name;
+	link.href = uri;
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+	delete link;
+}
+
+function customFunctions() {
+	HTMLElement.prototype.addClass = function(classname) {
+		this.classList.add(classname);
+	};
+
+	HTMLElement.prototype.remClass = function(classname) {
+		this.classList.remove(classname);
+	};
+
+	HTMLElement.prototype.print = function(html) {
+		this.innerHTML = html;
+	};
+}
+
+</script>
+
+</body>
+</html>
