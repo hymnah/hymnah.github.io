@@ -140,6 +140,10 @@
 	.page-header {
 	    margin-bottom: 20px;
 	    font-size: 16px;
+	} 
+
+	.icon-wrap {
+		display: inline-block;
 	}
 
 	.lasttime {
@@ -274,7 +278,7 @@
 	<div class="main-panel">
 		<div class="page init-page">
 			<div class="result-div">
-				<div class="lasttime"><i class="fa fa-clock"></i> Last randomize : <span id="lasttimeval"></span></div>
+				<div class="lasttime"><span class="icon-wrap"><i class="fa fa-clock"></i></span> Last randomize : <span id="lasttimeval"></span></div>
 				<div id="loader"></div>
 				<div id="result"></div>
 				<button id="shuffle" class="free-w">Randomize</button>
@@ -536,14 +540,22 @@ function getLastTime() {
 }
 
 function saveData() {
-	let jStr = ulamlist.value.split("\n");
+	let foodElems = eQuery('#foodrandlist .randfoodval');
+	let jStr = [];
+
+	for (i in foodElems) {
+		if (typeof foodElems[i].textContent !== 'undefined') {
+			jStr.push(foodElems[i].textContent);
+		}
+	}
+	
 
 	storage
 	.setData(jStr, 'list')
 	// .setData([], 'result')
 	.setData({'startday': startday.value, 'endday': endday.value}, 'settings')
 	.save();
-	ulamlist.value = storage.getData('list').join("\r\n");
+	// ulamlist.value = storage.getData('list').join("\r\n");
 }
 
 function saveFoodList() {
@@ -564,7 +576,7 @@ endday.onchange = function() {
 	saveData();
 }
 
-foodlist.onchange = function() {
+foodlist.oninput = function() {
 	saveFoodList();
 }
 
