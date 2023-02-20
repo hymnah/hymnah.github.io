@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html translate="no">
 <head>
 	<title>Food Randomizer</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -407,7 +407,7 @@ function onpageload() {
 	showLastTimeVal();
 
 	
-}
+};
 
 function dateState() {
 	let startVal = startday.value;
@@ -429,7 +429,7 @@ function dateState() {
 	if (endVal <= startVal) {
 		endday.value = '';
 	}
-}
+};
 
 function process() {
 	let dataList = storage.getData('list');
@@ -499,7 +499,7 @@ function process() {
 
 	}, 2);
 
-}
+};
 
 function showResult() {
 	let res = storage.getData('result');
@@ -512,17 +512,17 @@ function showResult() {
 		resHtml += '<div class="foodsection"><div class="foodday">' + daysLbl[inc] + '</div><div class="foodname">' + res[i] + '</div></div>'
 	}
 	resultTable.innerHTML = resHtml;
-}
+};
 
 function showLastTimeVal() {
 	lasttimeval.innerHTML = getLastTime();
-}
+};
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+};
 
 function getLastTime() {
 	let a = new Date();
@@ -537,7 +537,7 @@ function getLastTime() {
   	let time = month + ' ' + date + ' ' + year + ' ' + hour + ':' + min.substr(-2) + ':' + sec.substr(-2) + ' ' + ampm;
 
 	return time;
-}
+};
 
 function saveData() {
 	let foodElems = eQuery('#foodrandlist .randfoodval');
@@ -556,7 +556,7 @@ function saveData() {
 	.setData({'startday': startday.value, 'endday': endday.value}, 'settings')
 	.save();
 	// ulamlist.value = storage.getData('list').join("\r\n");
-}
+};
 
 function saveFoodList() {
 	let jStr = foodlist.value.split("\n");
@@ -565,57 +565,65 @@ function saveFoodList() {
 	.setData(jStr, 'foodlist')
 	.save();
 	foodlist.value = storage.getData('foodlist').join("\r\n");
-}
+};
 
 startday.onchange = function() {
 	dateState();
 	saveData();
-}
+};
 
 endday.onchange = function() {
 	saveData();
-}
+};
 
 foodlist.oninput = function() {
 	saveFoodList();
-}
+};
 
-addtolist.oninput = function(e) {
-	let stxt = e.currentTarget.value;
-	let flist = storage.getData('foodlist');
-	let rlist = storage.getData('list');
-	let resArr = [];
-	let resTxt = '';
+['input', 'focus'].forEach(function(evt) {
+	if (evt === 'undefined') return;
+	addtolist.addEventListener(evt, function(e) {
+		let stxt = e.currentTarget.value;
+		let flist = storage.getData('foodlist');
+		let rlist = storage.getData('list');
+		let resArr = [];
+		let resTxt = '';
 
-	for (i in flist) {
-		let eachf = flist[i];
-		let lowereachf = eachf.toLowerCase();
+		for (i in flist) {
+			let eachf = flist[i];
+			let lowereachf = eachf.toLowerCase();
 
-		if (lowereachf.indexOf(stxt) > -1) {
-			resArr.push(eachf);
+			if (lowereachf.indexOf(stxt) > -1) {
+				resArr.push(eachf);
+			}
 		}
-	}
 
-	for (i in resArr) {
-		let fctrl = '<div class="foodadd"><i class="fa fa-add">';
-		if (inArray(resArr[i], rlist)) {
-			fctrl = '<div class="foodsel"><i class="fa fa-check">';
+		for (i in resArr) {
+			let fctrl = '<div class="foodadd"><i class="fa fa-add">';
+			if (inArray(resArr[i], rlist)) {
+				fctrl = '<div class="foodsel"><i class="fa fa-check">';
+			}
+			resTxt += '<div class="searchitem"><div class="foodval">' + resArr[i] + '</div>' + fctrl + '</i></div></div>';
 		}
-		resTxt += '<div class="searchitem"><div class="foodval">' + resArr[i] + '</div>' + fctrl + '</i></div></div>';
-	}
 
-	if (resTxt == '') {
-		searchres.print('<div class="nrf">No results found</div>')
-	} else {
-		searchres.print(resTxt);
-	}
+		if (resTxt == '') {
+			searchres.print('<div class="nrf">No results found</div>')
+		} else {
+			searchres.print(resTxt);
+		}
 
-	searchres.remClass('hidden');
+		searchres.remClass('hidden');
 
-	if (addtolist.value == '') {
-		searchres.addClass('hidden');
-	}
-}
+		if (addtolist.value == '') {
+			searchres.addClass('hidden');
+		}
+	})
+});
+
+
+addtolist.onblur = function() {
+	searchres.addClass('hidden');
+};
 
 function setFoodStripsEvent() {
 	document.body.onclick = function(e) {
@@ -650,8 +658,8 @@ function setFoodStripsEvent() {
 			// addtolist.value = '';
 			// searchres.addClass('hidden');
 		}
-	};
-}
+	}
+};
 
 function setFoodStrips() {
 	let srandfood = storage.getData('list');
@@ -660,7 +668,7 @@ function setFoodStrips() {
 		foodstrp += '<div class="randfood"><div class="randfoodval">' + srandfood[i] + '</div><div class="foodclose"><i class="fa fa-remove"></i></div></div>';
 	}
 	foodrandlist.print(foodstrp);
-}
+};
 
 
 shuffle.onclick = function() {
@@ -669,7 +677,7 @@ shuffle.onclick = function() {
 	.setData(getLastTime(), 'lasttime')
 	.save();
 	showLastTimeVal();
-}
+};
 
 btnDaysSettings.onclick = function() {
 	if (divDaysSettings.classList.value.indexOf('hidden') > -1) {
@@ -677,7 +685,7 @@ btnDaysSettings.onclick = function() {
 	} else {
 		divDaysSettings.addClass('hidden');
 	}
-}
+};
 
 
 </script>
