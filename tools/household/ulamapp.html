@@ -621,8 +621,10 @@ foodlist.oninput = function() {
 });
 
 
-addtolist.onblur = function() {
-	searchres.addClass('hidden');
+addtolist.onblur = function(e) {
+	setTimeout(function() {
+		searchres.addClass('hidden');
+	}, 500)
 };
 
 function setFoodStripsEvent() {
