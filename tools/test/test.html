@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification</title>
+</head>
+<body>
+<script>
+    var YOUR_CLIENT_ID = '235883844924-phqjapih9bvgllmm09t86jnecund12ee.apps.googleusercontent.com';
+    var YOUR_REDIRECT_URI = 'https://hymnah.github.io/tools/test/test.html';
+    var fragmentString = location.hash.substring(1);
+
+    // Parse query string to see if page request is coming from OAuth 2.0 server.
+    var params = {};
+    var regex = /([^&=]+)=([^&]*)/g, m;
+    while (m = regex.exec(fragmentString)) {
+        params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+    }
+    if (Object.keys(params).length > 0) {
+        localStorage.setItem('oauth2-test-params', JSON.stringify(params) );
+        if (params['state'] && params['state'] == 'try_sample_request') {
+            trySampleRequest();
+        }
+    }
+
+    // If there's an access token, try an API request.
+    // Otherwise, start OAuth 2.0 flow.
+    function trySampleRequest() {
+        var params = JSON.parse(localStorage.getItem('oauth2-test-params'));
+        console.log(params);
+        if (params && params['access_token']) {
+            // var xhr = new XMLHttpRequest();
+            // xhr.open('GET',
+            //     'https://www.googleapis.com/auth/firebase.messaging&' +
+            //     'access_token=' + params['access_token']);
+            // xhr.onreadystatechange = function (e) {
+            //     if (xhr.readyState === 4 && xhr.status === 200) {
+            //         console.log(xhr.response);
+            //     } else if (xhr.readyState === 4 && xhr.status === 401) {
+            //         // Token invalid, so prompt for user permission.
+            //         oauth2SignIn();
+            //     }
+            // };
+            // xhr.send(null);
+        } else {
+            oauth2SignIn();
+        }
+    }
+
+    /*
+     * Create form to request access token from Google's OAuth 2.0 server.
+     */
+    function oauth2SignIn() {
+        // Google's OAuth 2.0 endpoint for requesting an access token
+        var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+
+        // Create element to open OAuth 2.0 endpoint in new window.
+        var form = document.createElement('form');
+        form.setAttribute('method', 'GET'); // Send as a GET request.
+        form.setAttribute('action', oauth2Endpoint);
+
+        // Parameters to pass to OAuth 2.0 endpoint.
+        var params = {'client_id': YOUR_CLIENT_ID,
+            'redirect_uri': YOUR_REDIRECT_URI,
+            'scope': 'https://www.googleapis.com/auth/firebase.messaging',
+            'state': 'try_sample_request',
+            'include_granted_scopes': 'true',
+            'response_type': 'token'};
+
+        // Add form parameters as hidden input values.
+        for (var p in params) {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('name', p);
+            input.setAttribute('value', params[p]);
+            form.appendChild(input);
+        }
+
+        // Add form to page and submit it to open the OAuth 2.0 endpoint.
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
+<button onclick="trySampleRequest();">Try sample request</button>
+<script>
+    var params = JSON.parse(localStorage.getItem('oauth2-test-params'));
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", 'https://fcm.googleapis.com/v1/projects/firebase-testchat07/messages:send', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + params['access_token']);
+    xhr.send(JSON.stringify({
+        "message": {
+            "token" : "cYkMwfPHCnjGyqJyoO5g-j:APA91bHXPn7Iuxl3SLg0Pkl6GLsbKXewd7GI85z_FlaaxMj4fqMM7NN8kCtKdlyc62G92PwYeyPDO8Fetc15Y-yZMPb3vkOhIhYDXbwYYWxs1XQmi08aCKnN5YAhSYMzXCjY2Fw7ChzR",
+            "notification": {
+                "title": "Hello title",
+                "body": "This is a message from testing. You succeed !!!"
+            },
+            "webpush": {
+                "headers": {
+                    "Urgency": "high"
+                },
+                "notification": {
+                    "body": "This is a message from FCM to web",
+                    "requireInteraction": "true",
+                    "badge": "/badge-icon.png"
+                }
+            }
+        }
+    }));
+</script>
+</body>
+</html>
