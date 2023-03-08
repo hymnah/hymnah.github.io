@@ -6,7 +6,17 @@
     <title>Notification</title>
 </head>
 <body>
-<script>
+<form action="" onsubmit="event.preventDefault()">
+    <textarea name="" id="notifcontent" cols="30" rows="10" style="display:block;"></textarea>
+    <button id="sendbtn">Send Notification</button>
+</form>
+
+<script defer src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/9.17.1/firebase-messaging-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+<script defer src="./init-firebase.js"></script>
+<script defer>
     var YOUR_CLIENT_ID = '235883844924-phqjapih9bvgllmm09t86jnecund12ee.apps.googleusercontent.com';
     var YOUR_REDIRECT_URI = 'https://hymnah.github.io/tools/test/test.html';
     var fragmentString = location.hash.substring(1);
@@ -17,19 +27,24 @@
     while (m = regex.exec(fragmentString)) {
         params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
     }
+
     if (Object.keys(params).length > 0) {
-        localStorage.setItem('oauth2-test-params', JSON.stringify(params) );
-        if (params['state'] && params['state'] == 'try_sample_request') {
-            trySampleRequest();
-        }
+        localStorage.setItem('oauth2-test-params', JSON.stringify(params));
+        // if (params['state'] && params['state'] == 'try_sample_request') {
+        //     trySampleRequest();
+        // }
     }
+
+    trySampleRequest();
 
     // If there's an access token, try an API request.
     // Otherwise, start OAuth 2.0 flow.
-    function trySampleRequest() {
-        var params = JSON.parse(localStorage.getItem('oauth2-test-params'));
-        console.log(params);
-        if (params && params['access_token']) {
+    async function trySampleRequest() {
+        // console.log(params);
+        if (!!accessToken) {
+            await verifyAccessToken();
+            authorized = verified;
+
             // var xhr = new XMLHttpRequest();
             // xhr.open('GET',
             //     'https://www.googleapis.com/auth/firebase.messaging&' +
@@ -48,6 +63,23 @@
         }
     }
 
+    function verifyAccessToken() {
+        return new Promise(function (resolve, reject) {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + accessToken);
+            xhr.onreadystatechange = function (e) {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    verified = true;
+                    resolve(xhr.response);
+                } else if (xhr.readyState === 4 && (xhr.status === 401 || xhr.status === 400)) {
+                    // Token invalid, so prompt for user permission.
+                    oauth2SignIn();
+                }
+            };
+            xhr.send(null);
+        })
+    }
+
     /*
      * Create form to request access token from Google's OAuth 2.0 server.
      */
@@ -61,12 +93,15 @@
         form.setAttribute('action', oauth2Endpoint);
 
         // Parameters to pass to OAuth 2.0 endpoint.
-        var params = {'client_id': YOUR_CLIENT_ID,
+        var params = {
+            'client_id': YOUR_CLIENT_ID,
             'redirect_uri': YOUR_REDIRECT_URI,
             'scope': 'https://www.googleapis.com/auth/firebase.messaging',
             'state': 'try_sample_request',
-            'include_granted_scopes': 'true',
-            'response_type': 'token'};
+            // 'include_granted_scopes': 'true',
+            'response_type': 'token',
+            'prompt': 'consent'
+        };
 
         // Add form parameters as hidden input values.
         for (var p in params) {
@@ -82,33 +117,45 @@
         form.submit();
     }
 </script>
+<script defer>
+    let sendBtn = document.getElementById('sendbtn');
+    let notifBody = document.getElementById('notifcontent');
 
-<button onclick="trySampleRequest();">Try sample request</button>
-<script>
-    var params = JSON.parse(localStorage.getItem('oauth2-test-params'));
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", 'https://fcm.googleapis.com/v1/projects/firebase-testchat07/messages:send', true);
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.setRequestHeader('Authorization', 'Bearer ' + params['access_token']);
-    xhr.send(JSON.stringify({
-        "message": {
-            "token" : "cYkMwfPHCnjGyqJyoO5g-j:APA91bHXPn7Iuxl3SLg0Pkl6GLsbKXewd7GI85z_FlaaxMj4fqMM7NN8kCtKdlyc62G92PwYeyPDO8Fetc15Y-yZMPb3vkOhIhYDXbwYYWxs1XQmi08aCKnN5YAhSYMzXCjY2Fw7ChzR",
-            "notification": {
-                "title": "Hello title",
-                "body": "This is a message from testing. You succeed !!!"
-            },
-            "webpush": {
-                "headers": {
-                    "Urgency": "high"
-                },
-                "notification": {
-                    "body": "This is a message from FCM to web",
-                    "requireInteraction": "true",
-                    "badge": "/badge-icon.png"
+    (async () => {
+        await verifyAccessToken();
+
+        if (!!authorized) {
+
+            readSubsTokens().then((value) => {
+
+                sendBtn.onclick = () => {
+                    let params = JSON.parse(localStorage.getItem('oauth2-test-params'));
+
+                    for(let i in value) {
+                        console.log(value[i])
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", 'https://fcm.googleapis.com/v1/projects/firebase-testchat07/messages:send', true);
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + params['access_token']);
+                        xhr.send(JSON.stringify(
+                            {
+                                "message": {
+                                    "token" : value[i],
+                                    "data": {
+                                        "title": "Hello title",
+                                        "body": notifBody.value,
+                                        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Sign-check-icon.png/50px-Sign-check-icon.png"
+                                    }
+                                }
+                            }
+                        ));
+                    }
+
                 }
-            }
+            });
+
+
         }
-    }));
+    })()
 </script>
 </body>
-</html>
