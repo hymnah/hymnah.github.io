@@ -15,7 +15,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
 const isSupported = firebase.messaging.isSupported();
-const db = firebase.database(app);
 
 if (isSupported) {
     const messaging = firebase.messaging();
