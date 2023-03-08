@@ -1,5 +1,5 @@
-importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.17.1/firebase-messaging-compat.js');
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -14,20 +14,16 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = firebase.initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
-// const messaging = getMessaging();
-
 const isSupported = firebase.messaging.isSupported();
+const db = firebase.database(app);
+
 if (isSupported) {
     const messaging = firebase.messaging();
 
-    messaging.onBackgroundMessage(({ notification: { title, body, image } }) => {
+    messaging.onBackgroundMessage(({ data: { title, body, image } }) => {
         self.registration.showNotification(title, {
-            body, icon: image || '/assets/icons/icon-72x72.png'
+            body,
+            icon: image || '/assets/icons/icon-72x72.png'
         });
-    });
-
-    messaging.onMessage((payload) => {
-        console.log(payload)
     });
 }
