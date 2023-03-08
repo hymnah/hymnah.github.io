@@ -24,6 +24,11 @@
     // Parse query string to see if page request is coming from OAuth 2.0 server.
     var params = {};
     var regex = /([^&=]+)=([^&]*)/g, m;
+    var storedParams = JSON.parse(localStorage.getItem('oauth2-test-params'));
+    var accessToken = storedParams !== null ? storedParams['access_token'] : '';
+    var authorized = false;
+    let verified = false;
+
     while (m = regex.exec(fragmentString)) {
         params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
     }
