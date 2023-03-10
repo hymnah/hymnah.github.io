@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Shifter</title>
+    <link rel="stylesheet" href="assets/css/tone.css">
+<!--    <link rel="stylesheet" href="/assets/fonts/flaticon/uicons-regular-rounded.css"/>-->
+</head>
+<body>
+
+<div id="track">
+    <div class="track-line">
+        <div class="track-buffed"></div>
+        <div class="track-played">
+            <div class="track-pin"></div>
+        </div>
+    </div>
+    <div class="media-ctrls">
+        <button class="media-ctrl" id="play"><i class="fi fi-rr-play"></i></button>
+        <button class="media-ctrl" id="pause" style="display: none;"><i class="fi fi-rr-pause"></i></button>
+        <button class="media-ctrl" id="stop"><i class="fi fi-rr-stop"></i></button>
+    </div>
+</div>
+
+<script src="assets/js/tone.js"></script>
+<script>
+
+    let eById = function(id) {
+        return document.getElementById(id);
+    }
+
+    let eByClass = function(name, index = null) {
+        if (index == null) {
+            return document.getElementsByClassName(name);
+        }
+        return document.getElementsByClassName(name)[index];
+    }
+
+    String.prototype.trimPx = function () {
+        return parseInt(this.replace('px', ''));
+    }
+
+    HTMLElement.prototype.getProp = function (prop) {
+        return window.getComputedStyle(this, null).getPropertyValue(prop);
+    }
+
+    const track = eById('track');
+    const trackPin = eByClass('track-pin', 0);
+    const trackLine = eByClass('track-line', 0);
+    const trackPlayed = eByClass('track-played', 0);
+
+    const pinOffset = trackPin.getProp('left').trimPx();
+
+    // const url = "/assets/audio/sample.mp3";
+    const url = 'src/glorious_refuge.mp3';
+    const playBtn = document.getElementById("play");
+    const pauseBtn = document.getElementById("pause");
+    const stopBtn = document.getElementById("stop");
+
+    const statusStop = 'stop';
+    const statusPlay = 'play';
+    const status = statusStop;
+
+    var clock;
+    var clockStart = 0;
+    const clockFactor = 10;
+
+    let playedPercentage = 0;
+    let seek = 0;
+    let dragging = false;
+
+    const player = new Tone.Player({
+        url,
+        loop: true,
+        autostart: false,
+        volume: -15,
+    });
+
+    (async () => {
+        await Tone.loaded();
+        const pitchShift = new Tone
+            .PitchShift({
+                pitch: 0
+            })
+            .toDestination();
+
+        let duration = Math.round(player.buffer.duration);
+        player.connect(pitchShift);
+        console.log(player.buffer)
+
+
+        trackPin.onmousedown = function () {
+            dragging = true;
+            document.onmouseup = function () {
+                document.onmouseup = null;
+                document.onmousemove = null;
+                dragging = false;
+            }
+
+            document.onmousemove = function (e) {
+                e.preventDefault();
+                placePin(e);
+                setSeek();
+            }
+        }
+
+        trackLine.onclick = function (e) {
+            placePin(e);
+
+            setSeek();
+            playerGuiStart();
+            player.seek(seek);
+        }
+
+        playBtn.onclick = function () {
+            pausePlayBtnState();
+            playerGuiStart();
+
+            player.start();
+            player.seek(seek);
+        }
+
+        pauseBtn.onclick = function () {
+            pausePlayBtnState();
+            playerGuiPause();
+
+            player.stop();
+        }
+
+
+        function playerGuiStart() {
+            stopClock();
+            clockStart = seek;
+            startClock(function (i) {
+
+                if (!dragging) {
+                    let stepWidth = (i * 100 / duration).toFixed(2);
+                    trackPlayed.style.width = stepWidth + '%';
+                    playedPercentage = stepWidth;
+                }
+
+            })
+        }
+
+        function playerGuiPause() {
+            stopClock();
+            setSeek();
+        }
+
+        function setSeek() {
+            seek = (playedPercentage / 100 * duration).toFixed(2);
+        }
+
+    })()
+
+
+    function placePin(e) {
+        let offsetLeft = Math.floor((window.innerWidth - trackLine.clientWidth) / 2);
+        let pinPosX = e.clientX - offsetLeft;
+
+        if (pinPosX >= 0) {
+            pinPosX = pinPosX > trackLine.clientWidth ? trackLine.clientWidth : pinPosX;
+            playedPercentage = getPlayedPercentage(pinPosX);
+            trackPlayed.style.width = playedPercentage + '%';
+        } else {
+            trackPlayed.style.width = '0';
+        }
+    }
+
+    function getPlayedPercentage(val) {
+        let trackWidth = trackLine.getProp('width').trimPx();
+        return (val / trackWidth * 100).toFixed(2);
+    }
+
+    function getPausedTime() {
+
+    }
+
+    function startClock(callback, interval) {
+        clock = setInterval(function () {
+            if (typeof callback !== 'undefined') {
+                clockStart++;
+                callback(clockStart);
+            }
+        }, interval ? interval : 1000)
+    }
+
+    function stopClock() {
+        clearInterval(clock);
+    }
+
+    function pausePlayBtnState() {
+        if (pauseBtn.style.display === 'none') {
+            pauseBtn.style.display = 'inline-block';
+            playBtn.style.display = 'none';
+            return true;
+        }
+
+        if (playBtn.style.display === 'none') {
+            playBtn.style.display = 'inline-block';
+            pauseBtn.style.display = 'none';
+            return true;
+        }
+    }
+
+
+</script>
+</body>
+</html>

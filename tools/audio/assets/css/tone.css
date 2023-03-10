@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+#track {
+    width: 100%;
+    padding: 10px;
+}
+
+.track-line {
+    background-color: #cccccc;
+    height: 10px;
+    max-width: 900px;
+    margin: 0 auto;
+    cursor: pointer;
+    position: relative;
+}
+
+.track-buffed {
+    width: 0;
+    height: inherit;
+    background-color: #aaaaaa;
+    position: absolute;
+    top: 0;
+}
+
+.track-played {
+    width: 0;
+    height: inherit;
+    background-color: #00796b;
+    position: relative;
+}
+
+.track-pin {
+    height: 16px;
+    width: 16px;
+    background-color: #000000aa;
+    position: absolute;
+    right: -8px;
+    top: -3px;
+    border-radius: 50em;
+    cursor: inherit;
+}
+
+.media-ctrls {
+    display: block;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.media-ctrl {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 1;
+    background-color: #009688;
+    color: #ffffff;
+    outline: none;
+    border: none;
+    border-radius: 3px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.media-ctrl:hover {
+    background-color: #00796b;
+}
