@@ -1272,7 +1272,8 @@ function setPrint() {
 		}
 	}
 
-	let ndays = eday - sday + 1;
+	// let ndays = eday - sday + 1;
+	let ndays = eday - sday;
 	for (i in nodays) {
 		if (nodays[i] instanceof HTMLElement) {
 			nodays[i].print(ndays + ' days');
