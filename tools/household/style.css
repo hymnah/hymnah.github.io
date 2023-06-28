@@ -1,0 +1,72 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    color: #555555;
+    font-size: 14px;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: System-UI, sans-serif;
+}
+
+.main {
+    padding: 25px;
+}
+
+input {
+    width: 100%;
+    text-indent: 10px;
+    font-size: 20px;
+    outline: none;
+    line-height: 1;
+    padding: 5px 0;
+    border: 1px solid #2196F3;
+}
+
+.row {
+    overflow: auto;
+    clear: both;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.w-50-p {
+    width: 50%;
+}
+
+.fl-l {
+    float: left;
+}
+
+.expenses {
+    margin-top: 40px;
+}
+
+p.label {
+    margin: 0;
+}
+
+.i-group {
+    position: relative;
+}
+
+.i-group label[for] {
+    position: relative;
+    background: #ffffff;
+    top: 9px;
+    left: 5px;
+    padding: 0 5px;
+}
+
+.pd-l-5 {
+    padding-left: 5px;
+}
+
+.pd-r-5 {
+    padding-right: 5px;
+}
