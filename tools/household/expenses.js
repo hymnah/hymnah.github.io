@@ -81,8 +81,7 @@
     }
 
 
-    donutData.push({name: 'balance', y: parseFloat(((storedIncome - totalExp) * 100 / storedIncome).toFixed(2))});
-    console.log(donutData);
+    donutData.push({name: 'Balance', y: parseFloat(((storedIncome - totalExp) * 100 / storedIncome).toFixed(2))});
 
     balVal.innerText = (storedIncome - totalExp).toString();
 
