@@ -1,3 +1,5 @@
+@import "spaces.css";
+@import "c-popup.css";
 html,
 body {
     margin: 0;
@@ -16,6 +18,10 @@ body {
     padding: 25px;
 }
 
+button {
+    cursor: pointer;
+}
+
 input {
     width: 100%;
     text-indent: 10px;
@@ -24,6 +30,7 @@ input {
     line-height: 1;
     padding: 5px 0;
     border: 1px solid #2196F3;
+    border-radius: 3px;
 }
 
 .row {
@@ -39,12 +46,32 @@ input {
     width: 50%;
 }
 
+.w-100-p {
+    width: 100%;
+}
+
+.h-30-px {
+    height: 30px;
+}
+
+.lh-1 {
+    line-height: 1;
+}
+
 .fl-l {
     float: left;
 }
 
-.expenses {
-    margin-top: 40px;
+.fl-r {
+    float: right;
+}
+
+.fl-l-resp {
+    float: left;
+}
+
+.fl-r-resp {
+    float: right;
 }
 
 p.label {
@@ -53,20 +80,76 @@ p.label {
 
 .i-group {
     position: relative;
+    padding: 5px;
 }
 
 .i-group label[for] {
-    position: relative;
+    position: absolute;
     background: #ffffff;
-    top: 9px;
-    left: 5px;
+    top: -5px;
+    left: 14px;
     padding: 0 5px;
 }
 
-.pd-l-5 {
-    padding-left: 5px;
+.f-exp-name,
+.f-exp-val {
+    width: 50%;
+    float: left;
 }
 
-.pd-r-5 {
-    padding-right: 5px;
+.f-exp-val,
+.list-val {
+    text-align: right;
+}
+
+#exp-list,
+#exp-income,
+#exp-remaining {
+    display: block;
+    overflow: auto;
+}
+
+#exp-income,
+#exp-remaining {
+    border-top: 1px dotted #aaaaaa;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.list-lbl,
+.list-val {
+    float: left;
+    width: 50%;
+}
+
+.exp-group {
+    float: left;
+    width: 50%;
+}
+
+.ovf-auto {
+    overflow: auto;
+}
+
+.min-ctrl,
+.add-ctrl {
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    margin-top: 5px;
+}
+
+@media screen and (max-width: 500px) {
+    .exp-group {
+        float: none;
+        width: 100%;
+    }
+
+    .fl-l-resp {
+        float: none;
+    }
+
+    .fl-r-resp {
+        float: none;
+    }
 }

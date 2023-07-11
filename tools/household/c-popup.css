@@ -1,0 +1,31 @@
+.c-popup {
+    display: none;
+    align-self: center;
+    max-width: 500px;
+    width: 100%;
+    min-height: 120px;
+    background: #ffffff;
+    position: relative;
+}
+
+.c-popup-box {
+    display: flex;
+    justify-content: center;
+}
+
+.c-popup-body {
+    padding: 20px 30px 50px 30px;
+    overflow: auto;
+    height: inherit;
+    max-height: 500px;
+}
+
+.c-popup-footer {
+    position: absolute;
+    bottom: 0;
+    padding: 8px;
+    text-align: right;
+    width: 100%;
+    border-top: solid 1px #dedede;
+    background-color: inherit;
+}

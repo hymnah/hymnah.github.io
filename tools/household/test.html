@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+</head>
+<body>
+
+<div id="output"></div>
+<script>
+
+    let str = '';
+    for (let i = 0; i <= 100; i++) {
+        str += '.pd-l-' + i + '{padding-left:' + i + 'px;}';
+        str += '.pd-r-' + i + '{padding-right:' + i + 'px;}';
+        str += '.pd-t-' + i + '{padding-top:' + i + 'px;}';
+        str += '.pd-b-' + i + '{padding-bottom:' + i + 'px;}';
+        str += '.mr-l-' + i + '{margin-left:' + i + 'px;}';
+        str += '.mr-r-' + i + '{margin-right:' + i + 'px;}';
+        str += '.mr-t-' + i + '{margin-top:' + i + 'px;}';
+        str += '.mr-b-' + i + '{margin-bottom:' + i + 'px;}';
+    }
+
+    document.getElementById('output').innerHTML = str;
+</script>
+</body>
+</html>

@@ -6,34 +6,88 @@
     <meta name="google" content="notranslate">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="flash.css">
     <link rel="icon" type="image/x-icon" href="https://img.icons8.com/external-flat-wichaiwi/16/external-pay-online-activities-flat-wichaiwi.png">
     <link rel="icon" sizes="192x192" href="https://img.icons8.com/external-flat-wichaiwi/100/external-pay-online-activities-flat-wichaiwi.png">
 </head>
 <body>
 
 <div class="main">
-    <div class="row">
-        <div class="i-group">
-            <label for="income">Income</label>
-            <input id="income" type="text" class="center-text">
+    <div id="container"></div>
+    <div id="exp-list">
+        <div class="exp-ref">
+            <div class="f-exp-name"></div>
+            <div class="f-exp-val"></div>
         </div>
     </div>
+    <div id="exp-income">
+        <div class="list-lbl">Income</div>
+        <div class="list-val" id="income-val"></div>
+    </div>
+    <div id="exp-remaining">
+        <div class="list-lbl">Balance</div>
+        <div class="list-val" id="bal-val"></div>
+    </div>
+    <button class="w-100-p h-30-px mr-t-25 lh-1" id="add-exp">Add Expense</button>
+    <button class="w-100-p h-30-px mr-t-10 lh-1" id="set-inc">Set Income</button>
+</div>
 
-    <div class="row expenses">
-        <p class="label">Expenses</p>
-        <div class="i-group w-50-p fl-l pd-r-5">
-            <label for="income-name">Name</label>
-            <input id="income-name" type="text">
+<div id="add-exp-popup" class="c-popup">
+    <div class="c-popup-body">
+        <div class="row">
+            <p class="label">Add Expenses</p>
+            <div class="mr-t-20">
+                <div class="multi-field-ref mr-b-20 ovf-auto">
+                    <div style="overflow: auto;float: left;width: 85%;">
+                        <div class="i-group exp-group">
+                            <label for>Name</label>
+                            <input type="text" class="exp-name" maxlength="32">
+                        </div>
+                        <div class="i-group exp-group">
+                            <label for>Value</label>
+                            <input type="number" class="exp-val">
+                        </div>
+                    </div>
+
+                    <div class="multi-field-ctrl">
+                        <button class="min-ctrl"><i class="fa fa-remove"></i></button>
+                        <button class="add-ctrl"><i class="fa fa-add"></i></button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="i-group w-50-p fl-l pd-l-5">
-            <label for="income-val">Value</label>
-            <input id="income-val" type="text">
+    </div>
+    <div class="c-popup-footer">
+        <button id="save">Save</button>
+        <button class="c-popup-close fl-l">Close</button>
+    </div>
+</div>
+
+<div id="set-inc-popup" class="c-popup">
+    <div class="c-popup-body">
+        <div class="row">
+            <div class="i-group">
+                <label for="income">Income</label>
+                <input id="income" type="text" class="center-text">
+            </div>
         </div>
+        <div class="row mr-t-20">
+
+        </div>
+    </div>
+    <div class="c-popup-footer">
+        <button id="save-inc">Save</button>
+        <button class="c-popup-close fl-l">Close</button>
     </div>
 </div>
 
 
+<script src="tools.js"></script>
+<script src="cPopup.js"></script>
 <script src="storage.js"></script>
+<script src="multifields.js"></script>
+<script src="flash.js"></script>
+<script src="vendor/highcharts.js"></script>
 <script src="expenses.js"></script>
 </body>
 </html>
