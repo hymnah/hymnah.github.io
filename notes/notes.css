@@ -1,0 +1,265 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'ABeeZee', 'serif';
+}
+
+html, body {
+    height: 100%;
+    background-color: #f1f1f1;
+}
+
+#note-search {
+    height: 40px;
+    max-width: 500px;
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: 15px;
+    text-indent: 15px;
+    border-radius: 3px;
+    -webkit-box-shadow: -5px 10px 29px -22px rgb(0 0 0 / 55%);
+    -moz-box-shadow: -5px 10px 29px -22px rgba(0, 0, 0, 0.55);
+    box-shadow: -5px 10px 29px -22px rgb(0 0 0 / 55%);
+}
+
+.main {
+    padding: 20px;
+}
+
+#notes {
+    margin-top: 20px;
+}
+
+.note-div {
+    max-width: 315px;
+    width: 100%;
+    display: none;
+    /*min-height: 300px;*/
+    -webkit-box-shadow: -5px 10px 29px -22px rgb(0 0 0 / 55%);
+    -moz-box-shadow: -5px 10px 29px -22px rgba(0, 0, 0, 0.55);
+    box-shadow: -5px 10px 29px -22px rgb(0 0 0 / 55%);
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 15px;
+    font-size: 25px;
+    position: relative;
+    margin-top: 10px;
+    margin-right: 10px;
+    text-decoration: none;
+    float: left;
+}
+
+.note-delete {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.note-delete::after {
+    content: '\1F5D1';
+    font-size: 15px;
+    font-weight: bold;
+    position: absolute;
+    right: 0;
+    top: -2px;
+    color: #455a64;
+}
+
+.note-title {
+    font-weight: bold;
+    color: #455a64;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+}
+
+.note-link {
+    text-decoration: none;
+}
+
+.note-content {
+    margin-top: 10px;
+    font-size: 15px;
+    color: #777777;
+    white-space: pre;
+    height: 200px;
+    overflow: hidden;
+}
+
+.note-hashes {
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    font-size: 12px;
+    color: #777777;
+    border-top: 1px solid #efefef;
+    padding: 10px;
+    width: 100%;
+    height: 40px;
+}
+
+#add-note-btn {
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    cursor: pointer;
+    background-color: #ffffff;
+    border-radius: 10em;
+    box-shadow: 0 4px 16px #00000033;
+}
+
+#add-note-btn::after {
+    content: '\2B';
+    font-size: 45px;
+    display: block;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    color: #455a64;
+}
+
+#popup-wrap,
+#delete-popup-wrap {
+    display: none;
+}
+
+#popup,
+#delete-popup {
+    width: 100%;
+    height: 100%;
+    background-color: #00000033;
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: center;
+}
+
+#add-note-form {
+    max-width: 500px;
+    width: 100%;
+    height: 400px;
+    background-color: #ffffff;
+    align-self: center;
+    border-radius: 5px;
+    padding: 30px;
+    position: relative;
+}
+
+#delete-note-form {
+    max-width: 300px;
+    width: 100%;
+    height: 120px;
+    background-color: #ffffff;
+    align-self: center;
+    border-radius: 5px;
+    padding: 20px;
+    position: relative;
+}
+
+#add-note-form input,
+#add-note-form textarea {
+    width: 100%;
+    display: block;
+    min-height: 40px;
+    margin-bottom: 10px;
+    border: none;
+    outline: none;
+    background-color: #efefef;
+    text-indent: 15px;
+    border-radius: 3px;
+}
+
+#add-note-form textarea {
+    resize: none;
+    padding-top: 15px;
+}
+
+.add-note-btns {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+}
+
+.delete-note-btns {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.edit-note-btns {
+    width: 100%;
+    text-align: right;
+    padding: 20px 0;
+}
+
+.add-note-btns button,
+.delete-note-btns button,
+.edit-note-btns button{
+    min-width: 50px;
+    padding: 10px;
+    cursor: pointer;
+    margin-left: 5px;
+    border: none;
+    background-color: #455a64;
+    color: #ffffff;
+    border-radius: 3px;
+}
+
+.note-delete-ask {
+    font-size: 15px;
+}
+
+#note-title,
+#note-hash {
+    height: 40px;
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: 15px;
+    text-indent: 15px;
+    border-radius: 3px;
+    -webkit-box-shadow: -5px 10px 29px -22px rgb(0 0 0 / 55%);
+    -moz-box-shadow: -5px 10px 29px -22px rgba(0, 0, 0, 0.55);
+    box-shadow: -5px 10px 29px -22px rgb(0 0 0 / 55%);
+}
+
+#note-content {
+    width: 100%;
+    display: block;
+    min-height: 40px;
+    margin-bottom: 10px;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    padding: 15px;
+    resize: none;
+}
+
+#note-title,
+#note-content,
+#note-hash {
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+@media screen and (max-width: 600px) {
+    #add-note-form {
+        max-width: 300px;
+    }
+
+    #add-note-btn {
+        bottom: 30px;
+        right: 30px;
+    }
+
+    .note-div {
+        max-width: 100%;
+    }
+}

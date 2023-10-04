@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Notes by albertisement</title>
+    <link rel="stylesheet" href="notes.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="main">
+    <input type="text" id="note-search" placeholder="Search">
+    <div id="notes"></div>
+</div>
+
+<div id="ref">
+    <div class="note-div">
+        <div class="note-delete"></div>
+        <a class="note-link" href="">
+            <div class="note-title"></div>
+        </a>
+        <div class="note-content"></div>
+        <div class="note-hashes"></div>
+    </div>
+</div>
+
+<div id="add-note-btn"></div>
+<div id="popup-wrap">
+    <div id="popup">
+        <div id="add-note-form">
+            <input id="add-note-title" type="text" placeholder="Title">
+            <textarea id="add-note-content" name="" cols="30" rows="10" placeholder="Content"></textarea>
+            <input id="add-note-hash" type="text" placeholder="Keywords">
+            <div class="add-note-btns">
+                <button id="add-note-close">Close</button>
+                <button id="add-note-add">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="delete-popup-wrap">
+    <div id="delete-popup">
+        <div id="delete-note-form">
+            <div class="note-delete-ask">Are you sure you want to delete?</div>
+            <div class="delete-note-btns">
+                <button id="delete-note-close">Close</button>
+                <button id="delete-note-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+    import { getDatabase, ref, child, set, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+        apiKey: "AIzaSyA6Me-DdLQBeCG0-tNwEogmYxYopGiyN-U",
+        authDomain: "notes-c0941.firebaseapp.com",
+        projectId: "notes-c0941",
+        storageBucket: "notes-c0941.appspot.com",
+        messagingSenderId: "339894615538",
+        appId: "1:339894615538:web:7181064691aef9080ebf6b",
+        measurementId: "G-6F0MXBM8WK"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const database = getDatabase(app);
+    const dbRef = `notes_project/db/`
+    let dataCount = 0;
+
+    const notes = ref(database, dbRef);
+    onValue(notes, (snapshot) => {
+        const data = snapshot.val();
+        if (!!data) {
+            dataCount = Object.keys(data).length;
+            renderNotes(data);
+        } else {
+            renderNotes([]);
+            console.log('No data available');
+        }
+    });
+
+    let body = $('body');
+    let addNoteBtn = $('#add-note-btn');
+    let addNoteForm = $('#add-note-form');
+    let addNoteAddBtn = $('#add-note-add');
+    let closeBtn = $('#add-note-close');
+    let popupWrap = $('#popup-wrap');
+    let addNoteTitle = $('#add-note-title');
+    let addNoteContent = $('#add-note-content');
+    let addNoteHash = $('#add-note-hash');
+
+    let deleteNoteIcon = '.note-delete';
+    let deletePopupWrap = $('#delete-popup-wrap');
+    let deleteNoteForm = $('#delete-note-form');
+    let deletePopup = $('#delete-popup');
+    let deleteCloseBtn = $('#delete-note-close');
+    let deleteNoteDeleteBtn = '#delete-note-delete';
+
+    let noteId = '';
+
+    closeBtn.on('click', function () {
+        popupWrap.fadeOut(50);
+    });
+
+    deleteCloseBtn.on('click', function () {
+        deletePopupWrap.fadeOut(50);
+    });
+
+    addNoteBtn.on('click', function () {
+        clearFields();
+        popupWrap.fadeIn(50);
+    });
+
+    popupWrap.on('click', function (e) {
+        if (!addNoteForm[0].contains(e.target)) {
+            popupWrap.fadeOut(50);
+        }
+    })
+
+    deletePopupWrap.on('click', function (e) {
+        if (!deleteNoteForm[0].contains(e.target)) {
+            deletePopupWrap.fadeOut(50);
+        }
+    })
+
+    addNoteAddBtn.on('click', function () {
+        writeUserData(addNoteTitle.val(), addNoteContent.val(), addNoteHash.val());
+        popupWrap.fadeOut(50);
+    });
+
+    body.on('click', deleteNoteDeleteBtn, function () {
+        const updates = {};
+        updates[`${dbRef}${noteId}`] = null;
+        update(ref(database), updates)
+        deletePopupWrap.fadeOut(50);
+    })
+
+    body.on('click', deleteNoteIcon, function () {
+        noteId = $(this).data('note-id');
+        $(deleteNoteDeleteBtn).attr('data-note-id', noteId);
+        deletePopupWrap.fadeIn(50);
+    })
+
+    function writeUserData(title, content, email) {
+        set(ref(database, dbRef + randomString(5)), {
+            title: title,
+            content: content,
+            hash: email,
+            createdDateTime: Math.floor(Date.now() / 1000)
+        });
+    }
+
+    function randomString(length, chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
+        let result = '';
+        for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+        return result;
+    }
+
+    function clearFields() {
+        addNoteTitle.val('');
+        addNoteContent.val('');
+        addNoteHash.val('');
+    }
+
+    function renderNotes(results) {
+        let notes = '';
+        let procResults = [];
+        for (let result in results) {
+            results[result]['id'] = result;
+            procResults.push(results[result]);
+        }
+
+        procResults.sort((a,b) => a.createdDateTime - b.createdDateTime);
+
+        for (let result in procResults) {
+            let resultItem = procResults[result];
+            let noteDiv = $('#ref .note-div').clone();
+            noteDiv.find('.note-link').attr('href', 'notes_edit.html?note_id=' + resultItem.id);
+            noteDiv.find('.note-delete').attr('data-note-id', resultItem.id);
+            noteDiv.find('.note-title').attr('title', resultItem.title).html(resultItem.title);
+            noteDiv.find('.note-content').html(resultItem.content);
+            noteDiv.find('.note-hashes').html(resultItem.hash);
+            noteDiv.css('display', 'inline-block');
+            let zz = noteDiv.wrap('<div>').parent().html();
+            notes += zz;
+        }
+        $('.main #notes').html(notes);
+    }
+</script>
+</body>
+</html>

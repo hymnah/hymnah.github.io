@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Notes by albertisement</title>
+    <link rel="stylesheet" href="notes.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="main">
+    <input id="note-title" type="text" placeholder="Title" spellcheck="false">
+    <textarea id="note-content" name="" rows="30" placeholder="Content" spellcheck="false"></textarea>
+    <input id="note-hash" type="text" placeholder="Keywords" spellcheck="false">
+    <div class="edit-note-btns">
+        <button id="edit-note-back">Back</button>
+        <button id="edit-note-save">Save</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
+    import { getDatabase, ref, child, set, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyA6Me-DdLQBeCG0-tNwEogmYxYopGiyN-U",
+        authDomain: "notes-c0941.firebaseapp.com",
+        projectId: "notes-c0941",
+        storageBucket: "notes-c0941.appspot.com",
+        messagingSenderId: "339894615538",
+        appId: "1:339894615538:web:7181064691aef9080ebf6b",
+        measurementId: "G-6F0MXBM8WK"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const database = getDatabase(app);
+    const url = new URL(location.href);
+    const noteId = url.searchParams.get('note_id');
+    const dbRef = `notes_project/db/${noteId}`
+
+    let noteTitle = $('#note-title');
+    let noteContent = $('#note-content');
+    let noteHash = $('#note-hash');
+
+    let editNoteBack = $('#edit-note-back');
+    let editNoteSave = $('#edit-note-save');
+
+    let createdDateTime = '';
+
+    const notes = ref(database, dbRef);
+    onValue(notes, (snapshot) => {
+        const data = snapshot.val();
+        console.log(data);
+        if (!!data) {
+            createdDateTime = data.createdDateTime;
+            renderNotes(data);
+        } else {
+            console.log('No data available');
+        }
+    });
+
+    editNoteBack.on('click', function () {
+        location.replace('/notes.html');
+    });
+
+    editNoteSave.on('click', function () {
+        const updates = {};
+        updates[dbRef] = {
+            title: noteTitle.val(),
+            content: noteContent.val(),
+            hash: noteHash.val(),
+            createdDateTime: createdDateTime
+        };
+        update(ref(database), updates)
+        location.replace('/notes.html');
+    });
+
+    function renderNotes(data) {
+        noteTitle.val(data.title);
+        noteContent.val(data.content);
+        noteHash.val(data.hash);
+    }
+
+</script>
+</body>
+</html>
