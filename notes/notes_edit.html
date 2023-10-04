@@ -48,6 +48,10 @@
     let noteContent = $('#note-content');
     let noteHash = $('#note-hash');
 
+    noteTitle.prop('disabled', true);
+    noteContent.prop('disabled', true);
+    noteHash.prop('disabled', true);
+
     let editNoteBack = $('#edit-note-back');
     let editNoteSave = $('#edit-note-save');
 
@@ -56,7 +60,6 @@
     const notes = ref(database, dbRef);
     onValue(notes, (snapshot) => {
         const data = snapshot.val();
-        console.log(data);
         if (!!data) {
             createdDateTime = data.createdDateTime;
             renderNotes(data);
@@ -78,13 +81,13 @@
             createdDateTime: createdDateTime
         };
         update(ref(database), updates)
-        location.replace('/notes.html');
+        location.replace('notes.html');
     });
 
     function renderNotes(data) {
-        noteTitle.val(data.title);
-        noteContent.val(data.content);
-        noteHash.val(data.hash);
+        noteTitle.val(data.title).prop('disabled', false);
+        noteContent.val(data.content).prop('disabled', false);
+        noteHash.val(data.hash).prop('disabled', false);
     }
 
 </script>
