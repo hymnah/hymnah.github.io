@@ -13,7 +13,7 @@
 
 <div class="main">
     <input id="note-title" type="text" placeholder="Title" spellcheck="false">
-    <textarea id="note-content" name="" rows="30" placeholder="Content" spellcheck="false"></textarea>
+    <code contenteditable="true" id="note-content" class="language-css" spellcheck="false"></code>
     <input id="note-hash" type="text" placeholder="Keywords" spellcheck="false">
     <div class="edit-note-btns">
         <button id="edit-note-back">Back</button>
@@ -76,7 +76,7 @@
         const updates = {};
         updates[dbRef] = {
             title: noteTitle.val(),
-            content: noteContent.val(),
+            content: noteContent.html(),
             hash: noteHash.val(),
             createdDateTime: createdDateTime
         };
@@ -86,7 +86,7 @@
 
     function renderNotes(data) {
         noteTitle.val(data.title).prop('disabled', false);
-        noteContent.val(data.content).prop('disabled', false);
+        noteContent.html(data.content).prop('disabled', false);
         noteHash.val(data.hash).prop('disabled', false);
     }
 

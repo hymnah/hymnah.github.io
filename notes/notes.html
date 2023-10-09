@@ -32,7 +32,7 @@
     <div id="popup">
         <div id="add-note-form">
             <input id="add-note-title" type="text" placeholder="Title">
-            <textarea id="add-note-content" name="" cols="30" rows="10" placeholder="Content"></textarea>
+            <textarea id="add-note-content" name="" cols="30" rows="20" placeholder="Content"></textarea>
             <input id="add-note-hash" type="text" placeholder="Keywords">
             <div class="add-note-btns">
                 <button id="add-note-close">Close</button>
@@ -111,6 +111,8 @@
     let deleteCloseBtn = $('#delete-note-close');
     let deleteNoteDeleteBtn = '#delete-note-delete';
 
+    let searchNote = $('#note-search');
+
     let noteId = '';
 
     closeBtn.on('click', function () {
@@ -156,6 +158,22 @@
         deletePopupWrap.fadeIn(50);
     })
 
+    searchNote.on('input', function () {
+        let searchStr = $(this).val();
+        $('#notes .note-div').each(function () {
+            let thisNote = $(this);
+            if (searchStr !== '') {
+                if (thisNote.html().toLowerCase().indexOf(searchStr) > -1) {
+                    thisNote.show();
+                } else {
+                    thisNote.hide();
+                }
+            } else {
+                thisNote.show();
+            }
+        })
+    });
+
     function writeUserData(title, content, email) {
         set(ref(database, dbRef + randomString(5)), {
             title: title,
@@ -193,11 +211,11 @@
             noteDiv.find('.note-link').attr('href', 'notes_edit.html?note_id=' + resultItem.id);
             noteDiv.find('.note-delete').attr('data-note-id', resultItem.id);
             noteDiv.find('.note-title').attr('title', resultItem.title).html(resultItem.title);
-            noteDiv.find('.note-content').html(resultItem.content);
+            // noteDiv.find('.note-content').html(resultItem.content);
             noteDiv.find('.note-hashes').html(resultItem.hash);
             noteDiv.css('display', 'inline-block');
-            let zz = noteDiv.wrap('<div>').parent().html();
-            notes += zz;
+            let notesHtml = noteDiv.wrap('<div>').parent().html();
+            notes += notesHtml;
         }
         $('.main #notes').html(notes);
     }
