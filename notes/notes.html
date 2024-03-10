@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="stylesheet" href="assets/fonts/flaticon/uicons-regular-rounded.css">
     <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -19,11 +20,11 @@
 
 <div id="ref">
     <div class="note-div">
-        <div class="note-delete"></div>
+        <div class="note-delete"><i class="fi fi-rr-trash"></i></div>
         <a class="note-link" href="">
             <div class="note-title"></div>
+            <div class="note-content"></div>
         </a>
-        <div class="note-content"></div>
         <div class="note-hashes"></div>
     </div>
 </div>
@@ -212,13 +213,23 @@
             noteDiv.find('.note-link').attr('href', 'notes_edit.html?note_id=' + resultItem.id);
             noteDiv.find('.note-delete').attr('data-note-id', resultItem.id);
             noteDiv.find('.note-title').attr('title', resultItem.title).html(resultItem.title);
-            // noteDiv.find('.note-content').html(resultItem.content);
-            noteDiv.find('.note-hashes').html(resultItem.hash);
+            noteDiv.find('.note-content').html(resultItem.content);
+            noteDiv.find('.note-hashes').html(splitHashes(resultItem.hash));
             noteDiv.css('display', 'inline-block');
             let notesHtml = noteDiv.wrap('<div>').parent().html();
             notes += notesHtml;
         }
         $('.main #notes').html(notes);
+    }
+
+    function splitHashes(hashStr)
+    {
+        let hashes = hashStr.split(' ');
+        let hashesStr = '';
+        for (let i in hashes) {
+            hashesStr += '<a class="hash-link" href="#">' + hashes[i] + '</a> ';
+        }
+        return hashesStr;
     }
 </script>
 </body>
