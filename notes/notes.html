@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="notes.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
     <link rel="stylesheet" href="assets/fonts/flaticon/uicons-regular-rounded.css">
     <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
 </head>
@@ -32,15 +32,15 @@
 <div id="add-note-btn"></div>
 <div id="popup-wrap">
     <div id="popup">
-        <div id="add-note-form">
-            <input id="add-note-title" type="text" placeholder="Title">
-            <textarea id="add-note-content" name="" cols="30" rows="20" placeholder="Content"></textarea>
+        <form id="add-note-form" method="post">
+            <input id="add-note-title" type="text" placeholder="Title" required>
+            <textarea id="add-note-content" name="" cols="30" rows="10" placeholder="Content" required></textarea>
             <input id="add-note-hash" type="text" placeholder="Keywords">
             <div class="add-note-btns">
                 <button id="add-note-close">Close</button>
                 <button id="add-note-add">Add</button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
@@ -81,20 +81,23 @@
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const database = getDatabase(app);
-    const dbRef = `notes_project/db/`
+    // const dbRef = `notes_project/db/`
+    let dbRef = `notes_project/users/`;
     let dataCount = 0;
+    let notes = ref(database, dbRef);
 
-    const notes = ref(database, dbRef);
-    onValue(notes, (snapshot) => {
-        const data = snapshot.val();
-        if (!!data) {
-            dataCount = Object.keys(data).length;
-            renderNotes(data);
-        } else {
-            renderNotes([]);
-            console.log('No data available');
-        }
-    });
+    checkSession(function () {
+        onValue(notes, (snapshot) => {
+            const data = snapshot.val();
+            if (!!data) {
+                dataCount = Object.keys(data).length;
+                renderNotes(data);
+            } else {
+                renderNotes([]);
+                console.log('No data available');
+            }
+        });
+    })
 
     let body = $('body');
     let addNoteBtn = $('#add-note-btn');
@@ -143,8 +146,14 @@
     })
 
     addNoteAddBtn.on('click', function () {
-        writeUserData(addNoteTitle.val(), addNoteContent.val(), addNoteHash.val());
-        popupWrap.fadeOut(50);
+        if (addNoteForm[0].checkValidity()) {
+            writeUserData(addNoteTitle.val(), addNoteContent.val(), addNoteHash.val());
+            popupWrap.fadeOut(50);
+        }
+    });
+
+    addNoteForm.on('submit', function(e) {
+        e.preventDefault();
     });
 
     body.on('click', deleteNoteDeleteBtn, function () {
@@ -176,6 +185,33 @@
         })
     });
 
+    function checkSession(fn) {
+        onValue(notes, (snapshot) => {
+            const data = snapshot.val();
+            if (!!data) {
+                dataCount = Object.keys(data).length;
+            } else {
+                console.log('No session available');
+            }
+
+            let hasSession = false;
+            snapshot.forEach((childSnapshot) => {
+                const childKey = childSnapshot.key;
+                if (childKey === sessionStorage.getItem('_notes_user_hash')) {
+                    dbRef = `notes_project/db/${childSnapshot.child('userId').val()}/`;
+                    notes = ref(database, dbRef);
+                    hasSession = true;
+                    fn();
+                }
+            });
+
+            if (!hasSession) {
+                window.location.replace('login.html');
+                return true;
+            }
+        });
+    }
+
     function writeUserData(title, content, email) {
         set(ref(database, dbRef + randomString(5)), {
             title: title,
@@ -201,23 +237,27 @@
         let notes = '';
         let procResults = [];
         for (let result in results) {
-            results[result]['id'] = result;
-            procResults.push(results[result]);
+            if (results.hasOwnProperty(result)) {
+                results[result]['id'] = result;
+                procResults.push(results[result]);
+            }
         }
 
         procResults.sort((a,b) => a.createdDateTime - b.createdDateTime);
 
         for (let result in procResults) {
-            let resultItem = procResults[result];
-            let noteDiv = $('#ref .note-div').clone();
-            noteDiv.find('.note-link').attr('href', 'notes_edit.html?note_id=' + resultItem.id);
-            noteDiv.find('.note-delete').attr('data-note-id', resultItem.id);
-            noteDiv.find('.note-title').attr('title', resultItem.title).html(resultItem.title);
-            noteDiv.find('.note-content').html(resultItem.content);
-            noteDiv.find('.note-hashes').html(splitHashes(resultItem.hash));
-            noteDiv.css('display', 'inline-block');
-            let notesHtml = noteDiv.wrap('<div>').parent().html();
-            notes += notesHtml;
+            if (procResults.hasOwnProperty(result)) {
+                let resultItem = procResults[result];
+                let noteDiv = $('#ref .note-div').clone();
+                noteDiv.find('.note-link').attr('href', 'notes_edit.html?note_id=' + resultItem.id);
+                noteDiv.find('.note-delete').attr('data-note-id', resultItem.id);
+                noteDiv.find('.note-title').attr('title', resultItem.title).html(resultItem.title);
+                noteDiv.find('.note-content').html(resultItem.content);
+                noteDiv.find('.note-hashes').html(splitHashes(resultItem.hash));
+                noteDiv.css('display', 'inline-block');
+                let notesHtml = noteDiv.wrap('<div>').parent().html();
+                notes += notesHtml;
+            }
         }
         $('.main #notes').html(notes);
     }
@@ -227,7 +267,9 @@
         let hashes = hashStr.split(' ');
         let hashesStr = '';
         for (let i in hashes) {
-            hashesStr += '<a class="hash-link" href="#">' + hashes[i] + '</a> ';
+            if (hashes.hasOwnProperty(i)) {
+                hashesStr += '<a class="hash-link" href="#">' + hashes[i] + '</a> ';
+            }
         }
         return hashesStr;
     }
