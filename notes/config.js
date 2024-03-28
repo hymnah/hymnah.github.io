@@ -3,7 +3,7 @@ const baseUrl = 'https://hymnah.github.io';
 export const routesConfig = {
     baseUrl: baseUrl,
     homePage: baseUrl + '/notes',
-    loginPage: baseUrl + '/login'
+    loginPage: baseUrl + '/notes/login'
 }
 
 
