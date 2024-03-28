@@ -1,8 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 import { getDatabase, ref, child, set, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-import { firebaseConfig } from "../../config.js";
-import {routesConfig} from "../../config";
+import { firebaseConfig, routesConfig } from "../../config.js";
 
 
 // Initialize Firebase
