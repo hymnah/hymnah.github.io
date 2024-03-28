@@ -2,7 +2,8 @@ const baseUrl = 'http://localhost:63342/hymnah.github.io';
 
 export const routesConfig = {
     baseUrl: baseUrl,
-    homePage: baseUrl + '/notes'
+    homePage: baseUrl + '/notes',
+    loginPage: baseUrl + '/login'
 }
 
 

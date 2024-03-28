@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebas
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 import { getDatabase, ref, child, set, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 import { firebaseConfig } from "../../config.js";
+import {routesConfig} from "../../config";
 
 
 // Initialize Firebase
@@ -13,9 +14,6 @@ let dbRef = `notes_project/users/`;
 let dataCount = 0;
 let notes = ref(database, dbRef);
 
-set(ref(database, dbRef + randomString(5)), {
-    adad: 'adad'
-});
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -35,11 +33,8 @@ onAuthStateChanged(auth, (user) => {
                 console.log('No data available');
             }
         });
-        // return;
-        // $('#loader').hide();
     } else {
-        $('#loader').hide();
-        console.log('Signed out')
+        location.replace(routesConfig.loginPage);
     }
 });
 

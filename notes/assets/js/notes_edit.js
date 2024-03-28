@@ -45,11 +45,8 @@ onAuthStateChanged(auth, (user) => {
                 console.log('No data available');
             }
         });
-        // return;
-        // $('#loader').hide();
     } else {
-        $('#loader').hide();
-        console.log('Signed out')
+        location.replace(routesConfig.loginPage);
     }
 });
 
