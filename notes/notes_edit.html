@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Notes by albertisement</title>
-    <link rel="stylesheet" href="notes.css">
+    <link rel="stylesheet" href="assets/css/notes.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
@@ -23,105 +23,6 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-analytics.js";
-    import { getDatabase, ref, child, set, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyA6Me-DdLQBeCG0-tNwEogmYxYopGiyN-U",
-        authDomain: "notes-c0941.firebaseapp.com",
-        projectId: "notes-c0941",
-        storageBucket: "notes-c0941.appspot.com",
-        messagingSenderId: "339894615538",
-        appId: "1:339894615538:web:7181064691aef9080ebf6b",
-        measurementId: "G-6F0MXBM8WK"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
-    const url = new URL(location.href);
-    const noteId = url.searchParams.get('note_id');
-    // let dbRef = `notes_project/db/${sessionStorage.getItem('_notes_user_hash')}/${noteId}`
-    let dbRef = `notes_project/users/`;
-    let dataCount = 0;
-
-    let noteTitle = $('#note-title');
-    let noteContent = $('#note-content');
-    let noteHash = $('#note-hash');
-
-    noteTitle.prop('disabled', true);
-    noteContent.prop('disabled', true);
-    noteHash.prop('disabled', true);
-
-    let editNoteBack = $('#edit-note-back');
-    let editNoteSave = $('#edit-note-save');
-
-    let createdDateTime = '';
-
-    let notes = ref(database, dbRef);
-
-    checkSession(function () {
-        onValue(notes, (snapshot) => {
-            const data = snapshot.val();
-            if (!!data) {
-                createdDateTime = data.createdDateTime;
-                renderNotes(data);
-            } else {
-                console.log('No data available');
-            }
-        });
-    })
-
-    editNoteBack.on('click', function () {
-        location.replace('notes.html');
-    });
-
-    editNoteSave.on('click', function () {
-        const updates = {};
-        updates[dbRef] = {
-            title: noteTitle.val(),
-            content: noteContent.html(),
-            hash: noteHash.val(),
-            createdDateTime: createdDateTime
-        };
-        update(ref(database), updates)
-        location.replace('notes.html');
-    });
-
-    function renderNotes(data) {
-        noteTitle.val(data.title).prop('disabled', false);
-        noteContent.html(data.content).prop('disabled', false);
-        noteHash.val(data.hash).prop('disabled', false);
-    }
-
-    function checkSession(fn) {
-        onValue(notes, (snapshot) => {
-            const data = snapshot.val();
-            if (!!data) {
-                dataCount = Object.keys(data).length;
-            } else {
-                console.log('No session available');
-            }
-
-            let hasSession = false;
-            snapshot.forEach((childSnapshot) => {
-                const childKey = childSnapshot.key;
-                if (childKey === sessionStorage.getItem('_notes_user_hash')) {
-                    dbRef = `notes_project/db/${childSnapshot.child('userId').val()}/${noteId}/`;
-                    notes = ref(database, dbRef);
-                    hasSession = true;
-                    fn();
-                }
-            });
-
-            if (!hasSession) {
-                window.location.replace('login.html');
-                return true;
-            }
-        });
-    }
-
-</script>
+<script type="module" src="assets/js/notes_edit.js"></script>
 </body>
 </html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Notes by albertisement</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+    <link rel="stylesheet" href="assets/fonts/flaticon/uicons-regular-rounded.css">
+    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/notes.css">
+<!--    <script src="assets/js/routes.js"></script>-->
+</head>
+<body>
+
+<div class="main">
+    <input type="text" id="note-search" placeholder="Search" autocorrect="off" autocapitalize="none">
+
+    <div id="notes"></div>
+</div>
+
+<div id="ref">
+    <div class="note-div">
+        <div class="note-delete"><i class="fi fi-rr-trash"></i></div>
+        <a class="note-link" href="">
+            <div class="note-title"></div>
+            <div class="note-content"></div>
+        </a>
+        <div class="note-hashes"></div>
+    </div>
+</div>
+
+<div id="add-note-btn"></div>
+<div id="popup-wrap">
+    <div id="popup">
+        <form id="add-note-form" method="post">
+            <div class="field-area">
+                <input id="add-note-title" type="text" placeholder="Title" required>
+                <textarea id="add-note-content" name="" cols="30" rows="5" placeholder="Content" required></textarea>
+                <input id="add-note-hash" type="text" placeholder="Keywords">
+            </div>
+            <div class="add-note-btns">
+                <button id="add-note-close">Close</button>
+                <button id="add-note-add">Add</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="delete-popup-wrap">
+    <div id="delete-popup">
+        <div id="delete-note-form">
+            <div class="note-delete-ask">Are you sure you want to delete?</div>
+            <div class="delete-note-btns">
+                <button id="delete-note-close">Close</button>
+                <button id="delete-note-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script type="module" src="assets/js/notes.js"></script>
+</body>
+</html>

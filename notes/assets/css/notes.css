@@ -1,14 +1,5 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'ABeeZee', 'serif';
-}
+@import "global.css";
 
-html, body {
-    height: 100%;
-    background-color: #f1f1f1;
-}
 
 #main {
     display: flex;
@@ -24,11 +15,12 @@ html, body {
     -moz-box-shadow: -5px 10px 29px -22px rgba(0, 0, 0, 0.55);
     box-shadow: -5px 10px 29px -22px rgb(0 0 0 / 55%);
     padding: 20px;
+    border: 1px solid #aaaaaa44;
 }
 
 #_login_form {
     max-width: 300px;
-    margin: 30px auto 0 auto;
+    margin: 50px auto 0 auto;
 }
 
 #_login_form input  {
@@ -70,6 +62,8 @@ html, body {
 
 #notes {
     margin-top: 20px;
+    overflow: auto;
+    padding: 0 0 20px 0;
 }
 
 .note-div {
@@ -200,6 +194,12 @@ html, body {
     position: relative;
 }
 
+#add-note-form .field-area {
+    max-height: 420px;
+    height: 100%;
+    overflow: auto;
+}
+
 #delete-note-form {
     max-width: 300px;
     width: 100%;
@@ -227,12 +227,13 @@ html, body {
     width: 100%;
     display: block;
     min-height: 40px;
+    max-height: 250px;
     margin-bottom: 10px;
     border: none;
     outline: none;
     background-color: #efefef;
     border-radius: 3px;
-    resize: none;
+    resize: vertical;
     padding: 15px;
     overflow: auto;
 }
@@ -297,7 +298,6 @@ html, body {
     padding: 15px;
     resize: none;
     white-space: pre;
-    height: 200px;
 }
 
 #note-content > pre {
@@ -311,6 +311,11 @@ html, body {
     margin-bottom: 20px;
     font-size: 15px;
     background-color: #fff;
+}
+
+code[contenteditable] {
+    overflow: auto;
+    min-height: 300px;
 }
 
 @media screen and (max-width: 600px) {

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-up</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+    <link rel="stylesheet" href="../assets/css/signup.css">
+    <link rel="stylesheet" href="../assets/fonts/flaticon/uicons-regular-rounded.css">
+    <script src="../assets/js/routes.js"></script>
+</head>
+
+<body>
+    <div id="main" class="flex flex-x-center">
+        <div class="center-piece flex flex-y-center">
+            <div class="left-part flex flex-x-center">
+                <div class="content flex-y-center">
+                    <img src="../assets/image/logo.png" alt="" class="logo">
+                    <h1 class="greeting font-white">Welcome to Notes</h1>
+                    <div class="description font-white">Click button below to create account</div>
+                    <a href="../signup" class="btn login-btn">Sign-up</a>
+                </div>
+            </div>
+            <div class="right-part flex flex-x-center">
+                <div class="content flex-y-center">
+                    <h1>Login</h1>
+                    <form id="signup_form" action="" method="post" autocomplete="off" onsubmit="arguments[0].preventDefault()">
+                        <div class="iconed">
+                            <i class="fi fi-rr-envelope"></i>
+                            <label for="username">
+                                <input id="username" name="username" type="email" placeholder="User ID" autocomplete="off" required>
+                            </label>
+                        </div>
+                        <div class="iconed">
+                            <i class="fi fi-rr-lock"></i>
+                            <label for="password">
+                                <input id="password" name="password" type="password" placeholder="Password" autocomplete="off" required>
+                            </label>
+                        </div>
+                        <button class="btn signup-btn">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loader">
+        <span class="loader"></span>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script type="module" src="../assets/js/login.js"></script>
+</body>
+</html>
