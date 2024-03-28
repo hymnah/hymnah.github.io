@@ -1,4 +1,4 @@
-const baseUrl = 'http://localhost:63342/hymnah.github.io';
+const baseUrl = 'https://hymnah.github.io';
 
 export const routesConfig = {
     baseUrl: baseUrl,
