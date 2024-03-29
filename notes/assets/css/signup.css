@@ -54,7 +54,7 @@ img.logo {
     letter-spacing: 2px;
     font-size: 12px;
     border: 2px solid #ffffff;
-    padding: 10px 20px;
+    padding: 12px 20px;
 }
 
 .signup-btn {
@@ -62,7 +62,7 @@ img.logo {
     font-size: 12px;
     background-color: var(--accent-color);
     border: 2px solid var(--accent-color);
-    padding: 10px 20px;
+    padding: 12px 20px;
 }
 
 .right-part {
@@ -117,5 +117,9 @@ form input {
 
     h1 {
         font-size: 25px;
+    }
+
+    .signup-btn, .login-btn {
+        width: 100%;
     }
 }
