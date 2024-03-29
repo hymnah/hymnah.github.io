@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign-up</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon.png">
     <link rel="stylesheet" href="../assets/css/signup.css">
     <link rel="stylesheet" href="../assets/fonts/flaticon/uicons-regular-rounded.css">
+    <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
     <script src="../assets/js/routes.js"></script>
 </head>
 
@@ -16,8 +17,8 @@
             <div class="left-part flex flex-x-center">
                 <div class="content flex-y-center">
                     <img src="../assets/image/logo.png" alt="" class="logo">
-                    <h1 class="greeting font-white">Welcome to Notes</h1>
-                    <div class="description font-white">Click button below to create account</div>
+                    <h1 class="greeting font-white" data-config="app_name">Welcome to {{app_name}}</h1>
+                    <div class="description font-white">Write down.. save.. anything</div>
                     <a href="../signup" class="btn login-btn">Sign-up</a>
                 </div>
             </div>
@@ -49,6 +50,7 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script type="module" src="../app.js"></script>
     <script type="module" src="../assets/js/login.js"></script>
 </body>
 </html>

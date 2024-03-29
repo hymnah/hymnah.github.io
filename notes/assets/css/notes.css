@@ -313,6 +313,15 @@
     background-color: #fff;
 }
 
+button#logout {
+    padding: 10px 20px;
+    background-color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 3px;
+    cursor: pointer;
+    color: var(--sys-white);
+}
+
 code[contenteditable] {
     overflow: auto;
     min-height: 300px;

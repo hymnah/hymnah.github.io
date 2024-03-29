@@ -2,7 +2,7 @@
 
 :root {
     --accent-color: #FFA900;
-    --shadow-color: #999999aa;
+    --shadow-color: #444444;
     --gray-white: #FFFFFF;
     --sys-black: #01252A;
     --sys-white: #FFFFFF;
@@ -55,7 +55,7 @@ html, body {
 .iconed i {
     position: absolute;
     left: 10px;
-    top: 10px;
+    top: 17px;
     color: var(--accent-color);
 }
 
