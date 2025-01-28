@@ -1,5 +1,5 @@
 body {
-    background: url("/assets/image/login-bg.jpg") no-repeat  50% 50% / cover;
+    background: url("../image/login-bg.jpg") no-repeat  50% 50% / cover;
 }
 
 ::placeholder {
