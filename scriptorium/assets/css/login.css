@@ -1,0 +1,53 @@
+body {
+    background: url("/assets/image/login-bg.jpg") no-repeat  50% 50% / cover;
+}
+
+::placeholder {
+    color: #ffffff;
+}
+
+.form-wrap {
+    width: 380px;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+    border: 2px solid #ffffffaa;
+    border-radius: 10px;
+    color: #ffffff;
+}
+
+form input {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    text-indent: 10px;
+    height: 50px;
+    outline: none;
+    color: #ffffff;
+    font-size: 14px;
+    border: 2px solid #ffffffaa;
+    border-radius: 10px;
+    background-color: transparent;
+    font-family: inherit;
+    caret-color: #ffffff;
+}
+
+form input:-webkit-autofill,
+form input:-webkit-autofill:hover,
+form input:-webkit-autofill:focus,
+form input:-webkit-autofill:active {
+    transition: background-color 50000s;
+    -webkit-text-fill-color: #ffffff !important;
+    -webkit-text-stroke-color: #ffffff !important;
+}
+
+form button {
+    margin-top: 20px;
+    font-size: 14px;
+    width: 100%;
+    background-color: #ffffff;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    height: 50px;
+    cursor: pointer;
+}

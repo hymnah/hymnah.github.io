@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Scriptorium</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/popup.css">
+</head>
+<body>
+<div class="loader-wrap">
+    <div class="loader"></div>
+</div>
+
+
+<div class="content-wrap h-100 w-100 flex">
+<!--    <div class="p-20">-->
+<!--        <div class="h-100 p-20" id="left-panel">-->
+<!--            <h2 class="t-center"><img src="/assets/image/logo.png" class="v-align-text-bottom"> Scriptorium</h2>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="p-x-20 h-100 flex-grow-1 of-auto pos-rel">
+        <div class="p-20 pos-sticky t-20 w-100 z-i-90 of-auto" id="content-header">
+            <div class="col-6 none-res">
+                <h2><img id="brand-img" src="/assets/image/logo.png" class="v-align-text-bottom"><span id="brand-lbl"> Scriptorium</span></h2>
+            </div>
+            <div class="col-6 none-res">
+                <button class="btn float-right" id="_logout" style="min-width: 30px;border-radius: 10em;"><i class="fi fi-rr-power"></i></button>
+            </div>
+        </div>
+        <div class="pos-rel h-100 t-20" id="content-panel">
+<!--            <div class="col-3 p-10">-->
+<!--                <div class="script-item p-20 pos-rel">-->
+<!--                    <i class="fi fi-rr-menu-dots pos-abs t-10 r-20"></i>-->
+<!--                    <div>Title</div>-->
+<!--                    <div>Content</div>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+    </div>
+</div>
+
+<div class="pos-fix p-20" id="add-script">
+    <i class="fi fi-rr-plus"></i>
+</div>
+
+<div class="_popup" data-trigger="#add-script">
+    <div class="_popup-content">
+        <h3 class="m-b-20">New Content</h3>
+        <form action="" name="add-form" id="add-form">
+            <input type="text" name="title" class="m-b-20" placeholder="Title" required>
+            <textarea name="content" cols="30" rows="10" class="p-t-10 m-b-20" placeholder="Content" required></textarea>
+            <button type="submit" class="float-right">Save</button>
+            <button type="button" class="float-right m-r-10 _popup-close">Close</button>
+        </form>
+    </div>
+</div>
+
+<div class="_popup" data-trigger=".edit-script">
+    <div class="_popup-content">
+        <h3 class="m-b-20">Edit Content</h3>
+        <form action="" name="edit-form" id="edit-form">
+            <input id="edit-title" type="text" name="title" class="m-b-20" placeholder="Title" required>
+            <textarea id="edit-content" name="content" rows="20" class="p-t-10 m-b-20" placeholder="Content" required></textarea>
+            <input type="hidden" id="edit-id" name="_id">
+            <button type="submit" class="float-right">Save</button>
+            <button type="button" class="float-right m-r-10 _popup-close">Close</button>
+        </form>
+    </div>
+</div>
+
+<div class="_popup" data-trigger=".delete-script">
+    <div class="_popup-content-small">
+        <h3 class="m-b-20 t-center">Delete Content</h3>
+        <form action="" name="edit-form" id="delete-form" class="t-center">
+            <input type="hidden" id="delete-id" name="_id">
+            <button type="button" class="m-r-5 _popup-close">Close</button>
+            <button type="submit" class="m-l-5">Delete</button>
+        </form>
+    </div>
+</div>
+
+<script type="module" src="/app.js"></script>
+<script type="module" src="/assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Scriptorium</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/login.css">
+</head>
+<body>
+<div class="loader-wrap">
+    <div class="loader"></div>
+</div>
+
+
+<div class="flex flex-x-center flex-y-center h-100 w-100 p-x-20">
+    <div class="form-wrap">
+        <h2 class="t-center m-b-30"><img src="/assets/image/logo.png" class="v-align-text-bottom"> Scriptorium</h2>
+        <div class="error-msg t-center" id="_login_form_error"></div>
+        <form id="_login_form" action="">
+            <input type="text" name="_username" id="_username" placeholder="Email" required>
+            <input type="password" name="_password" id="_password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <div class="t-center m-t-20">Don't have an account? Register</div>
+    </div>
+</div>
+
+
+<script type="module" src="/app.js"></script>
+<script type="module" src="/assets/js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+.h-100 {
+    height: 100%;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-y-center {
+    align-items: center;
+}
+
+.flex-x-center {
+    justify-content: center;
+}
+
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.t-center {
+    text-align: center;
+}
+
+.p-x-20 {
+    padding: 0 20px;
+}
+
+.v-align-text-bottom {
+    vertical-align: text-bottom;
+}
+
+.of-auto {
+    overflow: auto;
+}
+
+.pos-rel {
+    position: relative;
+}
+
+.pos-abs {
+    position: absolute;
+}
+
+.pos-fix {
+    position: fixed;
+}
+
+.pos-sticky {
+    position: sticky;
+}
+
+.t-10 {
+    top: 10px;
+}
+
+.t-20 {
+    top: 20px;
+}
+
+.t-80 {
+    top: 80px;
+}
+
+.r-10 {
+    right: 10px;
+}
+
+.r-20 {
+    right: 20px;
+}
+
+.z-i-90 {
+    z-index: 90;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.btn {
+    min-width: 100px;
+    padding: 5px 10px;
+    background-color: #827b00;
+    color: #ffffff;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+[class*=col-] {
+    float: left;
+}
+
+.col-6 {
+    width: 50%;
+}
+
+.col-4 {
+    width: 33.33%;
+}
+
+.col-3 {
+    width: 25%;
+}
+
+@media screen and (max-width: 600px) {
+    [class*=col-]:not(.none-res) {
+        width: 100%;
+    }
+}

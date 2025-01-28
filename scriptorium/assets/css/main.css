@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import "../fonts/flaticon/uicons-regular-rounded.css";
+@import "loader.css";
+@import "helper.css";
+@import "spaces.css";
+
+:root {
+    --accent-color: #cddc39;
+    --accent-color-pale: #faffc9;
+    --accent-color-dark: #827b00;
+    --white: #ffffff;
+    --black: #18191a;
+    --gray: #f0f5f9;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Open Sans', serif;
+}
+
+html, body {
+    height: 100%;
+    min-height: 100vh;
+    font-size: 14px;
+}
+
+body {
+
+}
+
+h2 {
+    font-weight: 400;
+}
+
+.error-msg {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #ffc107;
+}
+
+.content-wrap {
+    background-color: var(--gray);
+}
+
+#left-panel {
+    width: 270px;
+    background-color: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 2px 6px #2553b91a;
+}
+
+#content-header {
+    max-width: 1300px;
+    background-color: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 2px 6px #2553b91a;
+    margin: 0 auto;
+}
+
+#content-panel {
+    max-width: 1300px;
+    margin: 20px auto 0 auto;
+}
+
+.script-item {
+    background-color: var(--white);
+    border-radius: 20px;
+    box-shadow: 0 2px 6px #2553b91a;
+    padding-top: 30px;
+}
+
+.item-content {
+    overflow: hidden;
+    height: 190px;
+}
+
+.actions {
+    font-size: 12px;
+}
+
+#add-script {
+    text-align: center;
+    box-shadow: 0 2px 6px #2553b91a;
+    border-radius: 10em;
+    bottom: 100px;
+    right: 120px;
+    background-color: var(--accent-color-dark);
+    color: var(--white);
+    cursor: pointer;
+}
+
+#add-script i {
+    display: block;
+    line-height: 0;
+}
+
+#add-form input,
+#add-form textarea,
+#edit-form input,
+#edit-form textarea {
+    width: 100%;
+    border: 1px solid #26323844;
+    outline: none;
+    border-radius: 10px;
+    caret-color: var(--black);
+    font-family: inherit;
+}
+
+#add-form button,
+#edit-form button,
+#delete-form button {
+    border: 1px solid var(--accent-color-dark);
+    background-color: var(--accent-color-dark);
+    padding: 8px 10px;
+    color: var(--white);
+    outline: none;
+    border-radius: 10px;
+    font-family: inherit;
+    cursor: pointer;
+    min-width: 80px;
+}
+
+#add-form input,
+#edit-form input {
+    height: 45px;
+    text-indent: 10px;
+}
+
+#add-form textarea,
+#edit-form textarea {
+    resize: vertical;
+    padding: 10px;
+}
+
+.script-item i {
+    cursor: pointer;
+    color: var(--accent-color-dark);
+}
+
+.item-title {
+    color: var(--accent-color-dark);
+    height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+}
+
+.item-content {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+@media screen and (max-width: 1500px) {
+    #add-script {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #brand-lbl {
+        font-size: 14px;
+    }
+
+    #brand-img {
+        width: 24px;
+    }
+}
