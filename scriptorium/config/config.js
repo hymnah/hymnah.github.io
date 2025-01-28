@@ -15,13 +15,13 @@ export const _app_config = {
 
 export const _routes = {
     'route_login' : {
-        path: 'login',
+        path: '/scriptorium/login',
     },
     'route_signup' : {
-        path: 'signup',
+        path: '/scriptorium/signup',
     },
     'route_home' : {
-        path: 'pages/home',
+        path: '/scriptorium/pages/home',
     }
 
 };
