@@ -40,16 +40,16 @@ app_init().then(() => {
             if (typeof data[i] !== 'undefined') {
                 let _datus = data[i];
 
-                _html += `<div class="col-3 p-10">
+                _html += `<div class="col-2 p-10">
                             <div class="script-item p-20 pos-rel">
-                                <div class="actions pos-abs t-10 r-10">
-                                <i class="fi fi-rr-trash delete-script"></i>
-                                <i class="fi fi-rr-copy"></i>
-                                <i class="fi fi-rr-edit edit-script"></i>
+                                <div class="actions pos-abs t-10 r-15">
+                                    <i class="fi fi-rr-menu-dots action-script"></i>
                                 </div>
                                
-                                <div class="item-title">${_datus.title}</div>
-                                <div class="item-content m-t-10">${_datus.content}</div>
+                                <div class="edit-script">
+                                    <div class="item-title">${_datus.title}</div>
+                                    <div class="item-content m-t-10">${_datus.content}</div>
+                                </div>
                                 <div class="item-id" hidden>${i}</div>
                             </div>
                         </div>`;
@@ -92,6 +92,13 @@ app_init().then(() => {
 
 
     document.body.on('click', '.delete-script', function () {
+        // let _parent = this.closest('.script-item');
+        // let _id = _parent.find('.item-id').innerHTML;
+        //
+        // get_by_id('delete-id').value = _id;
+    });
+
+    document.body.on('click', '.action-script', function () {
         let _parent = this.closest('.script-item');
         let _id = _parent.find('.item-id').innerHTML;
 
@@ -111,5 +118,13 @@ app_init().then(() => {
         _reset_form();
     });
 
+
+    // const editor = CodeMirror.fromTextArea(document.getElementById("edit-content"), {
+    //     mode: "javascript", // Change this to match your language
+    //     lineNumbers: true,
+    //     theme: "monokai" // You can use other themes like "monokai"
+    // });
+    //
+    // setTimeout(() => editor.refresh(), 100);
 
 });

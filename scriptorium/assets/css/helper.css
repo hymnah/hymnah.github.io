@@ -70,6 +70,10 @@
     right: 10px;
 }
 
+.r-15 {
+    right: 15px;
+}
+
 .r-20 {
     right: 20px;
 }
@@ -111,6 +115,10 @@
 
 .col-3 {
     width: 25%;
+}
+
+.col-2 {
+    width: 16.66%;
 }
 
 @media screen and (max-width: 600px) {

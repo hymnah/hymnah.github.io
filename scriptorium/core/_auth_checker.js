@@ -9,7 +9,7 @@ export function checkAuth()
 
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                if (location.pathname === _routes['route_login']['path'] || location.pathname === _routes['route_signup']['path']) {
+                if (location.pathname === '/' || location.pathname === _routes['route_login']['path'] || location.pathname === _routes['route_signup']['path']) {
                     redirect_to(_routes['route_home']['path']);
                     return;
                 }
