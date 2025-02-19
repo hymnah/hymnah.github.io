@@ -1,7 +1,7 @@
 import {app_init, getAuth, signInWithEmailAndPassword} from "../../core/_firebase_src.js";
 import {get_by_id, redirect_to} from "../../core/_helper.js";
 import {_errors} from "../../core/_errors.js";
-import {_routes} from "../../config/config";
+import {_routes} from "../../config/config.js";
 
 
 app_init().then(() => {
