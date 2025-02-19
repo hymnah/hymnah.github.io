@@ -14,7 +14,10 @@ app_init().then(() => {
         let _password = get_by_id('_password');
 
         signInWithEmailAndPassword(auth, _username.value, _password.value).then((credentials) => {
-            if (!credentials.user['emailVerified']) get_by_id('_login_form_error').innerText = _errors['auth/email-not-verified'];
+            if (!credentials.user['emailVerified']) {
+                get_by_id('_login_form_error').innerText = _errors['auth/email-not-verified'];
+                return;
+            }
             redirect_to(_routes['route_home']['path']);
         }).catch((error => {
             const errorCode = error.code;
@@ -23,6 +26,4 @@ app_init().then(() => {
             get_by_id('_login_form_error').innerText = _errors[errorCode];
         }))
     }
-
-    // 'jaigcasan@gmail.com', 'cheekybert1*'
 });
