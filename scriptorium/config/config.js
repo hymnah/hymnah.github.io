@@ -20,8 +20,11 @@ export const _routes = {
     'route_signup' : {
         path: '/scriptorium/signup',
     },
+    'route_verify' : {
+        path: '/scriptorium/verify',
+    },
     'route_home' : {
-        path: '/scriptorium/pages/home',
+        path: '/pages/home/',
     }
 
 };

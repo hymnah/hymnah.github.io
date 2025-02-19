@@ -7,9 +7,9 @@ if (document.readyState !== 'loading') {
     setConfigVars();
 
     // remove trailing slash
-    if (window.location.pathname.endsWith('/')) {
-        window.history.replaceState(null, null, window.location.pathname.slice(0, -1))
-    }
+    // if (window.location.pathname.endsWith('/')) {
+    //     window.history.replaceState(null, null, window.location.pathname.slice(0, -1))
+    // }
 } else {
     document.addEventListener('DOMContentLoaded', () => {
     });

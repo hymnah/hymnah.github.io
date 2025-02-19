@@ -8,13 +8,20 @@ export function checkAuth()
         const auth = getAuth();
 
         onAuthStateChanged(auth, (user) => {
-            if (user) {
-                if (location.pathname === '/' || location.pathname === _routes['route_login']['path'] || location.pathname === _routes['route_signup']['path']) {
+            if (user && user.emailVerified) {
+                if (location.pathname === '/' ||
+                    location.pathname === _routes['route_login']['path'] ||
+                    location.pathname === _routes['route_signup']['path'] ||
+                    location.pathname === _routes['route_verify']['path']
+                ) {
                     redirect_to(_routes['route_home']['path']);
                     return;
                 }
             } else {
-                if (location.pathname !== _routes['route_login']['path'] && location.pathname !== _routes['route_signup']['path']) {
+                if (location.pathname !== _routes['route_login']['path'] &&
+                    location.pathname !== _routes['route_signup']['path'] &&
+                    location.pathname !== _routes['route_verify']['path']
+                ) {
                     redirect_to(_routes['route_login']['path']);
                     return;
                 }
@@ -28,11 +35,12 @@ export function checkAuth()
                 signOut(auth).then(() => {
                     redirect_to(_routes['route_login']['path']);
                 }).catch((error) => {
-
+                    console.log(error);
                 });
             }
         }
     });
+
 }
 
 

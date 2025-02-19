@@ -49,6 +49,12 @@ export function get_date_now()
     return Math.floor(Date.now() / 1000);
 }
 
+export function get_url_parameter(parameter)
+{
+    let urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(parameter);
+}
+
 export function _prototypes()
 {
     HTMLElement.prototype.on = function (eventType, selector, callback) {

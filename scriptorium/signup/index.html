@@ -3,8 +3,8 @@
 <head>
     <title>Scriptorium</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="stylesheet" href="/assets/css/login.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/login.css">
 </head>
 <body>
 <div class="loader-wrap">
@@ -16,17 +16,21 @@
     <div class="form-wrap">
         <h2 class="t-center">Signup</h2>
         <div class="error-msg t-center" id="_signup_form_error"></div>
-        <form id="_login_form" action="">
+        <form id="_signup_form" action="">
             <input type="text" name="_username" id="_username" placeholder="Email" required>
             <input type="password" name="_password" id="_password" placeholder="Password" required>
             <input type="password" name="_password" id="_verify_password" placeholder="Verify Password" required>
             <button type="submit">Signup</button>
+            <div class="m-t-10 t-center">
+                Do you have an account?
+                <a class="login-redirect" href="../login">Login</a>
+            </div>
         </form>
     </div>
 </div>
 
 
-<script type="module" src="/app.js"></script>
-<script type="module" src="/assets/js/signup.js"></script>
+<script type="module" src="../app.js"></script>
+<script type="module" src="../assets/js/signup.js"></script>
 </body>
 </html>

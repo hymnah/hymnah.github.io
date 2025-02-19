@@ -40,10 +40,14 @@ export async function get_data(table, callback)
         const database = getDatabase(app);
         onAuthStateChanged(auth, (user) => {
             let dbRef = `${_dbRef}${user.uid}/${table}`;
-            let scripts = query(ref(database, dbRef), orderByValue('creationDate'));
+            let scripts = query(ref(database, dbRef), orderByChild('creationDate'));
 
             onValue(scripts, (snapshot) => {
-                callback(snapshot.val());
+                let _return_obj = [];
+                snapshot.forEach(child => {
+                    _return_obj.push(child.val());
+                });
+                callback(_return_obj.reverse());
             });
         });
     });

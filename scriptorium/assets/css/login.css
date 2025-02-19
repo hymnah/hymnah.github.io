@@ -51,3 +51,8 @@ form button {
     height: 50px;
     cursor: pointer;
 }
+
+.login-redirect {
+    color: #cddc39;
+    text-decoration-color: #cddc39;
+}

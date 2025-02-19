@@ -12,8 +12,8 @@ export async function app_init() {
     return initializeApp(_firebase_config);
 }
 
-export const { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut, sendPasswordResetEmail } = await import(firebaseSource.fbAuth);
-export const { getDatabase, ref, set, update, onValue, query, orderByChild, orderByKey, orderByValue } = await import(firebaseSource.fbDb);
+export const { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendEmailVerification, signOut, sendPasswordResetEmail, applyActionCode } = await import(firebaseSource.fbAuth);
+export const { getDatabase, ref, set, update, onValue, onceValue, query, orderByChild, orderByKey, orderByValue } = await import(firebaseSource.fbDb);
 
 
 // export let dbRefPath = appConfig.fb_rdb_ref;
