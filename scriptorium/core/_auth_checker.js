@@ -9,7 +9,7 @@ export function checkAuth()
 
         onAuthStateChanged(auth, (user) => {
             if (user && user.emailVerified) {
-                if (location.pathname === '/' ||
+                if (location.pathname === '' ||
                     location.pathname === _routes['route_login']['path'] ||
                     location.pathname === _routes['route_signup']['path'] ||
                     location.pathname === _routes['route_verify']['path']

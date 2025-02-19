@@ -24,7 +24,7 @@ export const _routes = {
         path: '/scriptorium/verify',
     },
     'route_home' : {
-        path: '/scriptorium/pages/home/',
+        path: '/scriptorium/pages/home',
     }
 
 };
