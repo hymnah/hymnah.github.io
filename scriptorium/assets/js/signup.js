@@ -11,7 +11,16 @@ app_init().then(() => {
     get_by_id('_signup_form').on('submit', function (event) {
         event.preventDefault();
 
-        createUserWithEmailAndPassword(auth, get_by_id('_username').value, get_by_id('_password').value)
+        let _username = get_by_id('_username').value;
+        let _password = get_by_id('_password').value;
+        let _verify_password = get_by_id('_verify_password').value;
+
+        if (_password !== _verify_password) {
+            get_by_id('_signup_form_error').innerText = _errors['auth/password-not-matching'];
+            return;
+        }
+
+        createUserWithEmailAndPassword(auth, _username, _password)
             .then((userCredential) => {
                 const user = userCredential.user;
 

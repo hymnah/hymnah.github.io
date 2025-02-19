@@ -12,11 +12,10 @@ app_init().then(() => {
 
         let _username = get_by_id('_username');
         let _password = get_by_id('_password');
-        let _verify_password = get_by_id('_verify_password');
 
         signInWithEmailAndPassword(auth, _username.value, _password.value).then((credentials) => {
             if (!credentials.user['emailVerified']) get_by_id('_login_form_error').innerText = _errors['auth/email-not-verified'];
-            redirect_to(_routes['route_home']['home']);
+            redirect_to(_routes['route_home']['path']);
         }).catch((error => {
             const errorCode = error.code;
             const errorMessage = error.message;
