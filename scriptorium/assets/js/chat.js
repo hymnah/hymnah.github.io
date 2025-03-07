@@ -1,12 +1,20 @@
-import {app_init, getAuth, getDatabase, onValue, orderByChild, query, ref, set} from "../../core/_firebase_src.js";
+import {
+    app_init,
+    getAuth,
+    getDatabase,
+    onChildAdded,
+    onValue,
+    orderByChild,
+    query,
+    ref,
+    set
+} from "../../core/_firebase_src.js";
 import {_prototypes, generate_id, get_by_id, get_date_now} from "../../core/_helper.js";
 
 app_init().then((app) => {
     _prototypes();
 
-    const auth = getAuth();
-    const database = getDatabase(app);
-
+    let _ref = 'chat/messages/'
     let chatConfig = localStorage.getItem('chat');
 
     if (chatConfig) {
@@ -73,7 +81,12 @@ app_init().then((app) => {
 
     let convArea = get_by_id('conv-area');
 
+    let firstLoad = true; // Flag to ignore initial data
+
+    child_added(app);
+
     get_chat(app, (data) => {
+        firstLoad = false;
         let html = '';
 
         for (let i in data) {
@@ -92,31 +105,57 @@ app_init().then((app) => {
         convArea.innerHTML = html;
         convArea.scrollTop = convArea.scrollHeight;
     });
-})
 
-function write_chat(app, content)
-{
-    const database = getDatabase(app);
+    let faviconLink = get_by_id('favicon');
+    let tabActive = true;
 
-    let _ref = 'chat/messages/'
-    _ref = _ref + generate_id(7);
+    document.addEventListener("visibilitychange", function () {
+        tabActive = !document.hidden;
 
-    set(ref(database, _ref), content);
-}
-
-async function get_chat(app, callback)
-{
-    const database = getDatabase(app);
-
-    let _ref = 'chat/messages/'
-    let scripts = query(ref(database, _ref), orderByChild('creationDate'));
-
-    onValue(scripts, (snapshot) => {
-        let _return_obj = {};
-        snapshot.forEach(child => {
-            _return_obj[child.key] = child.val();
-        });
-        callback(Object.fromEntries(Object.entries(_return_obj)));
+        if (tabActive) {
+            faviconLink.href = 'favicon.ico';
+        }
     });
 
-}
+    function write_chat(app, content)
+    {
+        const database = getDatabase(app);
+
+        _ref = _ref + generate_id(7);
+
+        set(ref(database, _ref), content);
+    }
+
+    async function get_chat(app, callback)
+    {
+        const database = getDatabase(app);
+
+        let scripts = query(ref(database, _ref), orderByChild('creationDate'));
+
+        onValue(scripts, (snapshot) => {
+            let _return_obj = {};
+            snapshot.forEach(child => {
+                _return_obj[child.key] = child.val();
+            });
+            callback(Object.fromEntries(Object.entries(_return_obj)));
+        });
+    }
+
+    async function child_added(app)
+    {
+        const database = getDatabase(app);
+        let messagesRef = ref(database, _ref);
+
+        onChildAdded(messagesRef, (snapshot) => {
+            if (firstLoad) return;
+
+            const newMessage = snapshot.val();
+            console.log("New message received:", newMessage);
+
+            if (chatConfig.id !== newMessage.userId && !tabActive) {
+                faviconLink.href = 'favicon-notif.ico';
+            }
+        });
+    }
+})
+
