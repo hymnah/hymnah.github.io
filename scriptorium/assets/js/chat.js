@@ -107,6 +107,8 @@ app_init().then((app) => {
     });
 
     let faviconLink = get_by_id('favicon');
+    let pageTitle = get_by_id('page-title');
+    let pageTitleDefault = 'Chat';
     let tabActive = true;
 
     document.addEventListener("visibilitychange", function () {
@@ -114,6 +116,7 @@ app_init().then((app) => {
 
         if (tabActive) {
             faviconLink.href = 'favicon.ico';
+            pageTitle.textContent = pageTitleDefault;
         }
     });
 
@@ -154,6 +157,7 @@ app_init().then((app) => {
 
             if (chatConfig.id !== newMessage.userId && !tabActive) {
                 faviconLink.href = 'favicon-notif.ico';
+                pageTitle.textContent = '(1) ' + pageTitleDefault;
             }
         });
     }
