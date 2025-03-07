@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+@import "../fonts/flaticon/uicons-regular-rounded.css";
+@import "loader.css";
+@import "helper.css";
+@import "spaces.css";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "IBM Plex Sans", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+            "wdth" 100;
+}
+
+html, body {
+    height: 100%;
+    min-height: 100vh;
+    font-size: 14px;
+}
+
+
+#main {
+    height: 100%;
+    padding: 20px;
+    position: relative;
+}
+
+#chat-area {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    left: 20px;
+}
+
+#chat-area textarea {
+    padding: 10px;
+    border: 1px solid #aaa;
+    outline: none;
+    border-radius: 10px;
+    resize: none;
+}
+
+#chat-area button {
+    float: right;
+}
+
+#chat-area textarea,
+#chat-area button {
+    display: block;
+}
+
+#conv-area {
+    background-color: #ededed;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    left: 20px;
+    height: 70vh;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.each-chat {
+    position: relative;
+}
+
+.chatter-name {
+    font-size: 12px;
+}
+
+.inner-each-chat {
+    background-color: #aaaaaa;
+    color: #ffffff;
+    border-radius: 20px;
+    padding: 10px 20px;
+    min-height: 20px;
+    max-width: 60vw;
+    display: inline-block;
+    text-align: left;
+    white-space-collapse: preserve-breaks;
+    border-bottom-left-radius: 5px;
+}
+
+.chat-mine {
+    text-align: right;
+    overflow: auto;
+}
+
+.chat-mine .inner-each-chat {
+    background-color: #827b00;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 20px;
+}
