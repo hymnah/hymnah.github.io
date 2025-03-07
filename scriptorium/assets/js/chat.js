@@ -124,9 +124,9 @@ app_init().then((app) => {
     {
         const database = getDatabase(app);
 
-        _ref = _ref + generate_id(7);
+        let _local_ref = _ref + generate_id(7);
 
-        set(ref(database, _ref), content);
+        set(ref(database, _local_ref), content);
     }
 
     async function get_chat(app, callback)
