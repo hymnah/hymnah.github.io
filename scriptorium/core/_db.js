@@ -43,11 +43,11 @@ export async function get_data(table, callback)
             let scripts = query(ref(database, dbRef), orderByChild('creationDate'));
 
             onValue(scripts, (snapshot) => {
-                let _return_obj = [];
+                let _return_obj = {};
                 snapshot.forEach(child => {
-                    _return_obj.push(child.val());
+                    _return_obj[child.key] = child.val();
                 });
-                callback(_return_obj.reverse());
+                callback(Object.fromEntries(Object.entries(_return_obj).reverse()));
             });
         });
     });

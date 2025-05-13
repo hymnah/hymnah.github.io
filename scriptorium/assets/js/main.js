@@ -36,6 +36,12 @@ app_init().then(() => {
     get_data('script', function (data) {
         let _html = '';
 
+        if (Object.keys(data).length === 0) {
+            _html += `<div class="p-30">Create your first note</div>`;
+            get_by_id('content-panel').innerHTML = _html;
+            return;
+        }
+
         for (let i in data) {
             if (typeof data[i] !== 'undefined') {
                 let _datus = data[i];
@@ -63,7 +69,7 @@ app_init().then(() => {
     document.body.on('click', '.edit-script', function () {
         let _parent = this.closest('.script-item');
         let _title = _parent.find('.item-title').innerHTML;
-        let _content = _parent.find('.item-content').innerHTML;
+        let _content = _parent.find('.item-content').textContent;
         let _id = _parent.find('.item-id').innerHTML;
 
         get_by_id('edit-title').value = _title;
