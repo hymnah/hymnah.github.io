@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+</head>
+<body>
+
+
+<button id="play">play</button>
+
+<script src="assets/js/key-changer/soundtouch.js"></script>
+<script src="assets/js/key-changer/AudioPlayer.js"></script>
+<script>
+    document.getElementById('play').onclick = function() {
+        let audioPlayer = new AudioPlayer({
+            pitch: 1,
+            tempo: 1
+        });
+
+        zz("https://firebasestorage.googleapis.com/v0/b/notes-c0941.appspot.com/o/Michael%20Bubl%C3%A9%20-%20Everything%20%5BOfficial%20Music%20Video%5D.mp3?alt=media&token=954d457f-d4c7-464e-b5d8-fd1e33652bca");
+
+        async function zz(url) {
+            let zz = await getAudioBuffers(url);
+            let buffer = await audioPlayer.context.decodeAudioData(zz);
+            audioPlayer.setBuffer(buffer);
+            audioPlayer.play();
+        }
+
+        async function getAudioBuffers(url) {
+            const response = await fetch(url)
+            const arrayBuffer = await response.arrayBuffer();
+            // console.log(arrayBuffer);
+            return arrayBuffer;
+        }
+    }
+</script>
+
+
+</body>
+</html>

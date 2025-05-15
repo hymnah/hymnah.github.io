@@ -25,6 +25,9 @@ export const _routes = {
     },
     'route_home' : {
         path: '/scriptorium/home',
+    },
+    'route_key_changer' : {
+        path: '/scriptorium/key-changer',
     }
 
 };

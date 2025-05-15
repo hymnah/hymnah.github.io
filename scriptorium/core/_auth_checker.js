@@ -12,7 +12,8 @@ export function checkAuth()
                 if (location.pathname === '' ||
                     location.pathname === _routes['route_login']['path'] ||
                     location.pathname === _routes['route_signup']['path'] ||
-                    location.pathname === _routes['route_verify']['path']
+                    location.pathname === _routes['route_verify']['path'] ||
+                    location.pathname === _routes['route_key_changer']['path']
                 ) {
                     redirect_to(_routes['route_home']['path']);
                     return;
@@ -20,7 +21,8 @@ export function checkAuth()
             } else {
                 if (location.pathname !== _routes['route_login']['path'] &&
                     location.pathname !== _routes['route_signup']['path'] &&
-                    location.pathname !== _routes['route_verify']['path']
+                    location.pathname !== _routes['route_verify']['path'] &&
+                    location.pathname !== _routes['route_key_changer']['path']
                 ) {
                     redirect_to(_routes['route_login']['path']);
                     return;
